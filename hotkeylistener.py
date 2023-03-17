@@ -3,10 +3,11 @@
 ##############################
 # IMPORTS
 ##############################
-import pygetwindow
 from pynput import keyboard
 import threading
+import actions
 
+Actions = actions.Actions()
 
 ##############################
 # SET UP KEYBOARD LISTENERS
@@ -15,9 +16,7 @@ import threading
 def initListener():
 
     class KeyboardListener:
-        def focusWindow(self):
-            winToBeFocused = pygetwindow.getWindowsWithTitle('Hell Let Loose')[0]
-            winToBeFocused.activate()
+
 
         def onPress(self, key):
 
@@ -41,6 +40,7 @@ def initListener():
             commaHeld = False
             lHeld = False
             pHeld = False
+            tHeld = False
             
 
             # Check to see if the key is in the list of held keys
@@ -48,6 +48,8 @@ def initListener():
 
                 # Characters
                 if hasattr(element, 'char'):
+                    if element.char == 't':
+                        tHeld = True
                     if element.char == '/':
                         frontSlashHeld = True
                     if element.char == "'":
@@ -70,14 +72,46 @@ def initListener():
             
             # Check for held key combos here
 
-            # Leadership
-            if frontSlashHeld:
-                print('Leadership Mute')
-            if aposHeld:
-                print('Leadership Low')
-            if rightBracketHeld:
-                print('Leadership High')
+            if self.actionOngoing == False:
 
+                # Leadership
+                if frontSlashHeld:
+                    self.actionOngoing = True
+                    Actions.leadershipMute()
+                elif aposHeld:
+                    self.actionOngoing = True
+                    Actions.leadershipLow()
+                elif rightBracketHeld:
+                    self.actionOngoing = True
+                    Actions.leadershipHigh()
+                
+                # Unit
+                elif periodHeld:
+                    self.actionOngoing = True
+                    Actions.unitMute()
+                elif semicolonHeld:
+                    self.actionOngoing = True
+                    Actions.unitLow()
+                elif leftBracketHeld:
+                    self.actionOngoing = True
+                    Actions.unitHigh()
+
+                # Proximity
+                elif commaHeld:
+                    self.actionOngoing = True
+                    Actions.proxMute()
+                elif lHeld:
+                    self.actionOngoing = True
+                    Actions.proxLow()
+                elif pHeld:
+                    self.actionOngoing = True
+                    Actions.proxHigh()
+
+                # Test
+                elif tHeld:
+                    print(Actions.test)
+                    self.actionOngoing = True
+                
 
         def onRelease(self, key):
             # Remove elements from list as they are released
@@ -97,10 +131,7 @@ def initListener():
 
 
         def listen(self):
-            print('Listener started')
             self.keyListenerThreads += 1
-            print('Key Listener Threads:' + str(self.keyListenerThreads))
-
 
             with keyboard.Listener(
                 on_press=self.onPress,
@@ -116,6 +147,7 @@ def initListener():
             if key == keyboard.Key.alt_gr:
                 # If right alt was not already being held, start a new thread
                 if self.heldRightAlt == False:
+                    self.actionOngoing = False
                     keyThread = threading.Thread(target=self.listen, daemon=True)
                     keyThread.start()
                     self.heldRightAlt = True
@@ -126,12 +158,9 @@ def initListener():
             self.heldRightAlt = False
             self.keyListener.stop()
             self.keyListenerThreads -= 1
-            print('Listener stopped')
-            print('Key listener threads:' + str(self.keyListenerThreads))
 
         def win32_event_filterAlt(self, msg, data):
-            ph = 'ph'
-
+            # Suppress normal operation of right alt key
             self.altListener._suppress = False            
             if (msg == 260 and data.vkCode == 165):
                 self.altListener._suppress = True
@@ -150,5 +179,6 @@ def initListener():
             self.heldKeys = []
             self.heldRightAlt = False
             self.keyListenerThreads = 0
+            self.actionOngoing = False
 
     KeyboardListener()
