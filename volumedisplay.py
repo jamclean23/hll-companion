@@ -67,8 +67,7 @@ def initGui():
                 for frame in frames:
                     # Set meter height
                     meterHeight = round(float(levelsData[i].value) * 100)
-                    frame.config(height=meterHeight)
-                    i += 1
+
 
                     # Set color of meter according to meterHeight
                     if meterHeight > 75:
@@ -79,7 +78,19 @@ def initGui():
                         meterColor = 'orange'
                     elif meterHeight < 26:
                         meterColor = 'red'
+                
+                    if meterHeight == 0:
+                        meterHeight = 100
+                        meterColor = 'gray20'
+
+                    # Send Options
                     frame.config(bg=meterColor)
+                    frame.config(height=meterHeight)
+
+                    # LOG
+                    print(meterHeight)
+
+                    i += 1
             updateMeter(levelsData, frames) 
             
         ###############################

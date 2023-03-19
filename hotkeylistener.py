@@ -3,7 +3,7 @@
 ##############################
 # IMPORTS
 ##############################
-from pynput import keyboard
+from pynput import keyboard as Keyboard
 import threading
 import actions
 
@@ -77,35 +77,35 @@ def initListener():
                 # Leadership
                 if frontSlashHeld:
                     self.actionOngoing = True
-                    Actions.leadershipMute()
+                    self.nextAction = Actions.leadershipMute
                 elif aposHeld:
                     self.actionOngoing = True
-                    Actions.leadershipLow()
+                    self.nextAction = Actions.leadershipLow
                 elif rightBracketHeld:
                     self.actionOngoing = True
-                    Actions.leadershipHigh()
+                    self.nextAction = Actions.leadershipHigh
                 
                 # Unit
                 elif periodHeld:
                     self.actionOngoing = True
-                    Actions.unitMute()
+                    self.nextAction = Actions.unitMute
                 elif semicolonHeld:
                     self.actionOngoing = True
-                    Actions.unitLow()
+                    self.nextAction = Actions.unitLow
                 elif leftBracketHeld:
                     self.actionOngoing = True
-                    Actions.unitHigh()
+                    self.nextAction = Actions.unitHigh
 
                 # Proximity
                 elif commaHeld:
                     self.actionOngoing = True
-                    Actions.proxMute()
+                    self.nextAction = Actions.proxMute
                 elif lHeld:
                     self.actionOngoing = True
-                    Actions.proxLow()
+                    self.nextAction = Actions.proxLow
                 elif pHeld:
                     self.actionOngoing = True
-                    Actions.proxHigh()
+                    self.nextAction = Actions.proxHigh
 
                 # Test
                 elif tHeld:
@@ -120,7 +120,7 @@ def initListener():
                     self.heldKeys.remove(key)
 
             # Trigger altup event if key released is alt
-            if key == keyboard.Key.alt_gr:
+            if key == Keyboard.Key.alt_gr:
                 self.AltUp()
 
         def win32_event_filterKey(self, msg, data):
@@ -133,7 +133,7 @@ def initListener():
         def listen(self):
             self.keyListenerThreads += 1
 
-            with keyboard.Listener(
+            with Keyboard.Listener(
                 on_press=self.onPress,
                 on_release=self.onRelease,
                 win32_event_filter=self.win32_event_filterKey
@@ -144,7 +144,7 @@ def initListener():
         def checkIfAlt(self, key):
     
             # Check if right alt
-            if key == keyboard.Key.alt_gr:
+            if key == Keyboard.Key.alt_gr:
                 # If right alt was not already being held, start a new thread
                 if self.heldRightAlt == False:
                     self.actionOngoing = False
@@ -158,6 +158,8 @@ def initListener():
             self.heldRightAlt = False
             self.keyListener.stop()
             self.keyListenerThreads -= 1
+            self.nextAction()
+            self.nextAction = 'none'
 
         def win32_event_filterAlt(self, msg, data):
             # Suppress normal operation of right alt key
@@ -166,7 +168,7 @@ def initListener():
                 self.altListener._suppress = True
 
         def startAltListen(self):
-            with keyboard.Listener(
+            with Keyboard.Listener(
                 on_press=self.checkIfAlt,
                 win32_event_filter=self.win32_event_filterAlt
                 ) as self.altListener:
@@ -175,10 +177,11 @@ def initListener():
         def __init__(self):
             newThread = threading.Thread(target=self.startAltListen, daemon=True)
             newThread.start()
-            self.keySender = keyboard.Controller()
+            self.keySender = Keyboard.Controller()
             self.heldKeys = []
             self.heldRightAlt = False
             self.keyListenerThreads = 0
             self.actionOngoing = False
+            self.nextAction = ''
 
     KeyboardListener()
