@@ -1,4 +1,4 @@
-pycache/
+_pycache_/
 build/
 dist/
 -onefile.spec

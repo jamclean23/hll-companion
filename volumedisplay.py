@@ -8,6 +8,7 @@ from tkinter import *
 import os
 
 
+
 ##############################
 # INITIALIZE WINDOW
 ##############################
@@ -87,9 +88,6 @@ def initGui():
                     frame.config(bg=meterColor)
                     frame.config(height=meterHeight)
 
-                    # LOG
-                    print(meterHeight)
-
                     i += 1
             updateMeter(levelsData, frames) 
             
@@ -108,9 +106,9 @@ def initGui():
             root.after(2000, lambda: update(levelsData, frames))
 
         # Render meters frame
-        metersFrame = Frame(root, bg='gray30')
+        metersFrame = Frame(root, bg='gray30', relief='ridge', bd=2)
         metersFrame.pack()
-        metersFrame.place(bordermode=OUTSIDE, anchor='nw', height=150, width=380, x=10, y=10)
+        metersFrame.place(bordermode=INSIDE, anchor='nw', height=150, width=380, x=10, y=10)
 
         # Render meters
         def renderMeters(levelsData):

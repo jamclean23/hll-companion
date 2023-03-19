@@ -34,8 +34,13 @@ class Actions:
     def leadershipMuteThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -69,8 +74,13 @@ class Actions:
     def leadershipLowThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -104,8 +114,13 @@ class Actions:
     def leadershipHighThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -164,8 +179,13 @@ class Actions:
     def unitMuteThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -199,8 +219,13 @@ class Actions:
     def unitLowThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -234,8 +259,13 @@ class Actions:
     def unitHighThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -293,8 +323,13 @@ class Actions:
     def proxMuteThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -328,8 +363,13 @@ class Actions:
     def proxLowThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
@@ -363,8 +403,13 @@ class Actions:
     def proxHighThread(self):
         
         # Focus Hell Let Loose
-        self.focusWindow()
-        time.sleep(.2)
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return
         # Esc
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
