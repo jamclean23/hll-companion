@@ -10,6 +10,9 @@ import pynput
 import pygetwindow
 import time
 import threading
+from multiprocessing.managers import BaseManager
+import types
+
 
 keyboard = pynput.keyboard.Controller()
 mouse = pynput.mouse.Controller()
@@ -23,16 +26,55 @@ mouse = pynput.mouse.Controller()
 
 class Actions:
 
+    def getScalesObj(self):
+        manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
+        manager.connect()
+        currentQueue = manager.getIpcQueue()
+
+        if not currentQueue.empty():
+            scaleValuesString = currentQueue.get()
+            currentQueue.put(scaleValuesString)
+            return self.parseScaleValuesString(scaleValuesString)
+
+    def parseScaleValuesString(self, scaleValuesString):
+
+        resultObj = types.SimpleNamespace()
+
+        # Remove first character
+        scaleValuesString = scaleValuesString[1:]
+        # Remove last character
+        scaleValuesString = scaleValuesString[:-1]
+
+        elements = scaleValuesString.split('}{')
+        for element in elements:
+            splitElement = element.split(':{')
+            name = splitElement[0]
+
+            # Set attributes with names
+            setattr(resultObj, name, types.SimpleNamespace())
+            
+            # Parse values
+            # remove last character
+            splitElement[1] = splitElement[1][:-1]
+            # split
+            valuePair = splitElement[1].split(',')
+            # Assign values to new object, assign new object to result object
+            setattr(vars(resultObj)[name], 'high', valuePair[0].split(':')[1])
+            setattr(vars(resultObj)[name], 'low', valuePair[1].split(':')[1])
+        return resultObj
+
+
     def focusWindow(self):
         winToBeFocused = pygetwindow.getWindowsWithTitle('Hell Let Loose')[0]
         winToBeFocused.activate()
-    
     
     # Leadership
 
     # Threads
     def leadershipMuteThread(self):
-        
+
+        print(self.getScalesObj())
+
         # Focus Hell Let Loose
         try:
             self.focusWindow()

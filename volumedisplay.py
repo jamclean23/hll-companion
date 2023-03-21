@@ -15,6 +15,7 @@ from multiprocessing.managers import BaseManager
 
 ipcQueueItems = []
 
+
 ##############################
 # INITIALIZE WINDOW
 ##############################
@@ -73,8 +74,6 @@ def initGui():
         def updateQueue(newItem):
             global ipcQueueItems
 
-            print(newItem)
-
             # Add item
             ipcQueueItems.append(newItem)
 
@@ -85,7 +84,8 @@ def initGui():
             currentQueue = manager.getIpcQueue()
             
             if not currentQueue.empty():
-                print(currentQueue.get())
+                currentQueue.get()
+                
             currentQueue.put(newItem)
 
             # Reset Queue
