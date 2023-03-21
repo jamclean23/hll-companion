@@ -6,6 +6,7 @@
 
 from tkinter import *
 import os
+from PIL import ImageTk, Image  
 
 
 
@@ -95,9 +96,9 @@ def initGui():
         # Set up window
         ###############################
         root = Tk()
-        root.geometry('400x400')
+        root.geometry('400x330')
         root.title('HLL Companion')
-        root.configure(background='black')
+        root.configure(background='gray30')
         root.resizable(False, False)
 
         # Set up update function
@@ -106,7 +107,7 @@ def initGui():
             root.after(2000, lambda: update(levelsData, frames))
 
         # Render meters frame
-        metersFrame = Frame(root, bg='gray30', relief='ridge', bd=2)
+        metersFrame = Frame(root, bg='gray10', relief='ridge', bd=2)
         metersFrame.pack()
         metersFrame.place(bordermode=INSIDE, anchor='nw', height=120, width=380, x=10, y=10)
 
@@ -153,16 +154,34 @@ def initGui():
             i = 0
             for dateObj in levelsData:
                 # High Sliders
-                highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, foreground='white', background='black', label='      High')
+                highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      High')
                 highScale.pack()
-                highScale.place(anchor='center', x=100 + (i * 100), y=190)
+                highScale.place(anchor='center', x=100 + (i * 100), y=195)
 
                 # Low Sliders
-                lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, foreground='white', background='black', label='      Low')
+                lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      Low')
                 lowScale.pack()
-                lowScale.place(anchor='center', x=100 + (i * 100), y=250)
+                lowScale.place(anchor='center', x=100 + (i * 100), y=255)
                 i += 1
         renderScales(levelsData)
+
+        # Settings Button
+        def renderSettingsBtn():
+            img = Image.open("./assets/gear.png")
+            img.resize((50, 50), Image.ANTIALIAS)
+            finalImg = ImageTk.PhotoImage(img)
+            settingsBtn = Button(root, image=finalImg)
+            settingsBtn.pack()
+            settingsBtn.image = finalImg
+            settingsBtn.place(anchor='center', x=380, y=310)
+        renderSettingsBtn()
+
+        # Log Label
+        def renderLog():
+            actionsLog = Label(root, text='Log:', fg='white', bg='black', anchor='w', justify=LEFT, relief='ridge')
+            actionsLog.pack()
+            actionsLog.place(bordermode=INSIDE, width=300, height=25, x=200, y=310, anchor='center')
+        renderLog()
 
         # call update function
         root.after(2000, lambda: update(levelsData, frames))
