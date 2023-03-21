@@ -95,8 +95,8 @@ def initGui():
         # Set up window
         ###############################
         root = Tk()
-        root.geometry('400x200')
-        root.title('HLL Assistant')
+        root.geometry('400x400')
+        root.title('HLL Companion')
         root.configure(background='black')
         root.resizable(False, False)
 
@@ -108,7 +108,7 @@ def initGui():
         # Render meters frame
         metersFrame = Frame(root, bg='gray30', relief='ridge', bd=2)
         metersFrame.pack()
-        metersFrame.place(bordermode=INSIDE, anchor='nw', height=150, width=380, x=10, y=10)
+        metersFrame.place(bordermode=INSIDE, anchor='nw', height=120, width=380, x=10, y=10)
 
         # Render meters
         def renderMeters(levelsData):
@@ -131,7 +131,7 @@ def initGui():
                 # Create meters
                 frame = Frame(metersFrame, bg=meterColor, height=meterHeight)
                 frame.pack() 
-                frame.place(bordermode=OUTSIDE, anchor='sw', width=40, x=70 + (i * 100), y=110)
+                frame.place(bordermode=OUTSIDE, anchor='sw', width=40, x=70 + (i * 100), y=115)
                 frames.append(frame)
                 i += 1
             return frames
@@ -141,12 +141,29 @@ def initGui():
         def renderLabels(levelsData):
             i = 0
             for dateObj in levelsData:
-                label = Label(metersFrame, relief='ridge', text=dateObj.option.split('Voice')[0], padx=5, pady=3)
+                label = Label(root, relief='ridge', text=dateObj.option.split('Voice')[0], padx=5, pady=3)
                 label.pack()
-                label.place(bordermode=OUTSIDE, anchor='center', x=90 + (i * 100), y=130)
+                label.place(bordermode=OUTSIDE, anchor='center', x=100 + (i * 100), y=150)
                 i += 1
         renderLabels(levelsData)
         
+        # Render Scales
+        def renderScales(levelsData):
+
+            i = 0
+            for dateObj in levelsData:
+                # High Sliders
+                highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, foreground='white', background='black', label='      High')
+                highScale.pack()
+                highScale.place(anchor='center', x=100 + (i * 100), y=190)
+
+                # Low Sliders
+                lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, foreground='white', background='black', label='      Low')
+                lowScale.pack()
+                lowScale.place(anchor='center', x=100 + (i * 100), y=250)
+                i += 1
+        renderScales(levelsData)
+
         # call update function
         root.after(2000, lambda: update(levelsData, frames))
         root.mainloop()
