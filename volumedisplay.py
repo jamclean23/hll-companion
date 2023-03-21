@@ -25,6 +25,7 @@ def initGui():
                 self.option = option
                 self.value = value
 
+
     # Retrieve data from game ini and store in levelsData
     def getData(levelsData):
         levelsData.clear()
@@ -58,6 +59,13 @@ def initGui():
         # Event Handlers
         ##############################
 
+        # Update Scales Values
+        def updateScalesValues(scales):
+            dataList = []
+            for scale in scales:
+                print(scale.option)
+                print('high ' + str(scale.highScale.get()))
+                print('low ' + str(scale.lowScale.get()))
 
         def handleUpdateClick(levelsData, frames):
             #  Refresh levels data
@@ -147,23 +155,31 @@ def initGui():
                 label.place(bordermode=OUTSIDE, anchor='center', x=100 + (i * 100), y=150)
                 i += 1
         renderLabels(levelsData)
+
         
         # Render Scales
         def renderScales(levelsData):
-
+            scales = []
             i = 0
             for dateObj in levelsData:
                 # High Sliders
-                highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      High')
-                highScale.pack()
-                highScale.place(anchor='center', x=100 + (i * 100), y=195)
+                dateObj.highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      High')
+                dateObj.highScale.bind("<ButtonRelease-1>", lambda event : updateScalesValues(scales))
+                dateObj.highScale.pack()
+                dateObj.highScale.place(anchor='center', x=100 + (i * 100), y=195)
 
                 # Low Sliders
-                lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      Low')
-                lowScale.pack()
-                lowScale.place(anchor='center', x=100 + (i * 100), y=255)
+                dateObj.lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      Low')
+                dateObj.lowScale.bind("<ButtonRelease-1>", lambda event : updateScalesValues(scales))
+                dateObj.lowScale.pack()
+                dateObj.lowScale.place(anchor='center', x=100 + (i * 100), y=255)
+
+                scales.append(dateObj)
+
                 i += 1
         renderScales(levelsData)
+
+
 
         # Settings Button
         def renderSettingsBtn():
