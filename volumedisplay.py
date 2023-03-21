@@ -7,8 +7,13 @@
 from tkinter import *
 import os
 from PIL import ImageTk, Image  
+from multiprocessing.managers import BaseManager
 
+##############################
+# Global Variables
+##############################
 
+ipcQueueItems = []
 
 ##############################
 # INITIALIZE WINDOW
@@ -59,13 +64,58 @@ def initGui():
         # Event Handlers
         ##############################
 
+        # Reset ipcQueueItems
+        def resetQueueItems():
+            global ipcQueueItems
+            ipcQueueItems = []
+
+        # Add to ipcQueueItems
+        def updateQueue(newItem):
+            global ipcQueueItems
+
+            print(newItem)
+
+            # Add item
+            ipcQueueItems.append(newItem)
+
+            # Send to multiprocess queue
+            manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
+            manager.connect()
+
+            currentQueue = manager.getIpcQueue()
+            
+            if not currentQueue.empty():
+                print(currentQueue.get())
+            currentQueue.put(newItem)
+
+            # Reset Queue
+            resetQueueItems()
+
+        # Serialize scales values
+        def serializeScalesValues(scales):
+
+            scalesValuesString = ''
+            for scale in scales:
+                # Start Item
+                scalesValuesString += '{'
+                # name
+                scalesValuesString += scale.option
+                # Start object
+                scalesValuesString += ':{'
+                # High value
+                scalesValuesString += 'high:' + str(scale.highScale.get()) + ','
+                # Low value
+                scalesValuesString += 'low:' + str(scale.lowScale.get())
+                # End object
+                scalesValuesString += '}'
+                # Close item
+                scalesValuesString += '}'
+            return scalesValuesString
+
         # Update Scales Values
         def updateScalesValues(scales):
-            dataList = []
-            for scale in scales:
-                print(scale.option)
-                print('high ' + str(scale.highScale.get()))
-                print('low ' + str(scale.lowScale.get()))
+            scalesValuesString = serializeScalesValues(scales)
+            updateQueue(scalesValuesString)
 
         def handleUpdateClick(levelsData, frames):
             #  Refresh levels data
@@ -166,18 +216,23 @@ def initGui():
                 dateObj.highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      High')
                 dateObj.highScale.bind("<ButtonRelease-1>", lambda event : updateScalesValues(scales))
                 dateObj.highScale.pack()
+                dateObj.highScale.set(70)
                 dateObj.highScale.place(anchor='center', x=100 + (i * 100), y=195)
 
                 # Low Sliders
                 dateObj.lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      Low')
                 dateObj.lowScale.bind("<ButtonRelease-1>", lambda event : updateScalesValues(scales))
                 dateObj.lowScale.pack()
+                dateObj.lowScale.set(30)
                 dateObj.lowScale.place(anchor='center', x=100 + (i * 100), y=255)
 
                 scales.append(dateObj)
 
                 i += 1
-        renderScales(levelsData)
+            return scales
+        scales = renderScales(levelsData)
+        # On app mount update
+        updateScalesValues(scales)
 
 
 
