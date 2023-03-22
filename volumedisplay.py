@@ -9,13 +9,16 @@ import os
 from PIL import ImageTk, Image  
 from multiprocessing.managers import BaseManager
 import types
+import sys
 
 ##############################
 # Global Variables
 ##############################
 
 ipcQueueItems = []
-
+storagePath = os.path.join(os.getenv('LOCALAPPDATA'), 'hll-companion')
+settingsPath = os.path.join(storagePath, 'settings.txt')
+scalesPositionsPath = os.path.join(storagePath, 'sliders.txt')
 
 ##############################
 # INITIALIZE WINDOW
@@ -25,6 +28,12 @@ def initGui():
     ##############################
     # DATA MANIPULATION
     ##############################
+
+    def getPath(filename):
+        if hasattr(sys, "_MEIPASS"):
+            return os.path.join(sys._MEIPASS, filename)
+        else: 
+            return filename
 
     # Declare data storage class
     class ParsedObj:
@@ -53,6 +62,91 @@ def initGui():
     levelsData = []
     levelsData = getData(levelsData)
 
+    # Set up Local Storage
+    def createSettingsFile():
+        print('Creating Settings file')
+        settingsFile = open(settingsPath, 'w')
+        settingsFile.write('[resolution:{x:1920,y:1080}]')
+
+    def createSlidersFile():
+        print('Creatings sliders.txt...')
+        slidersFile = open(scalesPositionsPath, 'w')
+        slidersFile.write('{ProximityVoiceVolume:{high:70,low:30}}{UnitVoiceVolume:{high:70,low:30}}{LeadershipVoiceVolume:{high:70,low:30}}')
+
+    def initLocal():
+        # If no folder, create folder
+        if os.path.exists(storagePath):
+            print('Storage present')
+        else:
+            print('Storage not found, creating...')
+            os.mkdir(storagePath)
+
+        # # If no settings file, create settings file
+        if os.path.isfile(settingsPath):
+            print('Settings file found')
+        else:
+            print('Settings file not found')
+            createSettingsFile()
+        
+        # # if no scalesPositions file, create scalesPosition file
+        if os.path.isfile(scalesPositionsPath):
+            print('sliders.txt found')
+        else:
+            print('sliders.txt not found')
+            createSlidersFile()
+    initLocal()
+
+    def parseSettingsString(settingsString):
+        resultObj = types.SimpleNamespace()
+
+        # Remove first bracket
+        settingsString = settingsString[1:]
+        # Remove last bracket
+        settingsString = settingsString[:-1]
+
+        # Split objects
+        objectsStrings = settingsString.split('][')
+
+        for obj in objectsStrings:
+            # Check if first character is a bracket and remove
+            if obj[1] == '[':
+                obj = obj[1:]
+            if obj[-1] == ']':
+                obj = obj[:-1]
+
+            # LEFT OFF HERE
+
+
+
+
+
+    def parseScaleValuesString(scaleValuesString):
+
+        resultObj = types.SimpleNamespace()
+
+        # Remove first character
+        scaleValuesString = scaleValuesString[1:]
+        # Remove last character
+        scaleValuesString = scaleValuesString[:-1]
+
+        elements = scaleValuesString.split('}{')
+        for element in elements:
+            splitElement = element.split(':{')
+            name = splitElement[0]
+
+            # Set attributes with names
+            setattr(resultObj, name, types.SimpleNamespace())
+            
+            # Parse values
+            # remove last character
+            splitElement[1] = splitElement[1][:-1]
+            # split
+            valuePair = splitElement[1].split(',')
+            # Assign values to new object, assign new object to result object
+            setattr(vars(resultObj)[name], 'high', valuePair[0].split(':')[1])
+            setattr(vars(resultObj)[name], 'low', valuePair[1].split(':')[1])
+        return resultObj
+    
 
     ###############################
     # RENDER PROCESS
@@ -116,6 +210,8 @@ def initGui():
         # Update Scales Values
         def updateScalesValues(scales):
             scalesValuesString = serializeScalesValues(scales)
+            file = open(scalesPositionsPath, 'w')
+            file.write(scalesValuesString)
             updateQueue(scalesValuesString)
 
         def handleUpdateClick(levelsData, frames):
@@ -210,21 +306,37 @@ def initGui():
         
         # Render Scales
         def renderScales(levelsData):
+            scalesFile = open(scalesPositionsPath, 'r')
+            scalesValues = parseScaleValuesString(scalesFile.read())
+            print(scalesValues)
+
             scales = []
             i = 0
             for dateObj in levelsData:
+                
+                # Get starting values from local storage file
+                if dateObj.option == 'LeadershipVoiceVolume':
+                    highValue = scalesValues.LeadershipVoiceVolume.high
+                    lowValue = scalesValues.LeadershipVoiceVolume.low
+                elif dateObj.option == 'UnitVoiceVolume':
+                    highValue = scalesValues.UnitVoiceVolume.high
+                    lowValue = scalesValues.UnitVoiceVolume.low
+                elif dateObj.option == 'ProximityVoiceVolume':
+                    highValue = scalesValues.ProximityVoiceVolume.high
+                    lowValue = scalesValues.ProximityVoiceVolume.low
+                
                 # High Sliders
                 dateObj.highScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      High')
                 dateObj.highScale.bind("<ButtonRelease-1>", lambda event : updateScalesValues(scales))
                 dateObj.highScale.pack()
-                dateObj.highScale.set(70)
+                dateObj.highScale.set(highValue)
                 dateObj.highScale.place(anchor='center', x=100 + (i * 100), y=195)
 
                 # Low Sliders
                 dateObj.lowScale = Scale(root, from_=0, to=100, orient=HORIZONTAL, length=75, label='      Low')
                 dateObj.lowScale.bind("<ButtonRelease-1>", lambda event : updateScalesValues(scales))
                 dateObj.lowScale.pack()
-                dateObj.lowScale.set(30)
+                dateObj.lowScale.set(lowValue)
                 dateObj.lowScale.place(anchor='center', x=100 + (i * 100), y=255)
 
                 scales.append(dateObj)
@@ -247,18 +359,24 @@ def initGui():
 
         def startSettingsModal():
             
+
             # Default Preferences
-            defaultPreferences = types.SimpleNamespace()
-            defaultPreferences.resolution = types.SimpleNamespace()
-            defaultPreferences.resolution.width = 1920
-            defaultPreferences.resolution.height = 1080
+            preferences = types.SimpleNamespace()
+            preferences.resolution = types.SimpleNamespace()
+            preferences.resolution.width = 1920
+            preferences.resolution.height = 1080
+
+            # Local Storage
+
+            settingsFile = open(settingsPath, 'r')
+            parseSettingsString(settingsFile.read())
 
             # Placeholder values, to be replaced by reading from config file in local storage
             savedHeight = StringVar()
-            savedHeight.set(defaultPreferences.resolution.height)
+            savedHeight.set(preferences.resolution.height)
 
             savedWidth = StringVar()
-            savedWidth.set(defaultPreferences.resolution.width)
+            savedWidth.set(preferences.resolution.width)
 
             # Create frame and overlay
             settingsFrame = Frame(root, background='gray50')
@@ -307,7 +425,8 @@ def initGui():
 
         # Render settings Button
         def renderSettingsBtn():
-            img = Image.open("./assets/gear.png")
+            
+            img = Image.open(getPath("gear.png"))
             img.resize((50, 50), Image.ANTIALIAS)
             finalImg = ImageTk.PhotoImage(img)
             settingsBtn = Button(root, image=finalImg, command=startSettingsModal)

@@ -17,6 +17,8 @@ def initListener():
 
     class KeyboardListener:
 
+        def doNothing(self):
+            print('No Command')
 
         def onPress(self, key):
 
@@ -159,7 +161,7 @@ def initListener():
             self.keyListener.stop()
             self.keyListenerThreads -= 1
             self.nextAction()
-            self.nextAction = 'none'
+            self.nextAction = lambda: self.doNothing()
 
         def win32_event_filterAlt(self, msg, data):
             # Suppress normal operation of right alt key
@@ -182,6 +184,6 @@ def initListener():
             self.heldRightAlt = False
             self.keyListenerThreads = 0
             self.actionOngoing = False
-            self.nextAction = ''
+            self.nextAction = lambda: self.doNothing()
 
     KeyboardListener()
