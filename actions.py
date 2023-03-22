@@ -136,8 +136,6 @@ class Actions:
     # Threads
     def leadershipMuteThread(self):
 
-        print(self.getScalesObj())
-
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -146,7 +144,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership mute position
-        mouse.position = (self.xRatioToPixel(.40989), self.yRatioToPixel(.38703))
+        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -160,7 +158,14 @@ class Actions:
 
     def leadershipLowThread(self):
         global preferences
-        
+
+        try:
+            scalesValues = self.getScalesObj()
+            lowValue = scalesValues.LeadershipVoiceVolume.low
+        except:
+            lowValue = preferences.leadership.low
+        print(lowValue)
+
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -169,7 +174,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership low position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.leadership.low)), self.yRatioToPixel(.38703))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -183,7 +188,14 @@ class Actions:
 
     def leadershipHighThread(self):
         global preferences
-        
+
+        try:
+            scalesValues = self.getScalesObj()
+            highValue = scalesValues.LeadershipVoiceVolume.high
+        except:
+            highValue = preferences.leadership.high
+        print(highValue)
+  
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -192,7 +204,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership high
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.leadership.high)), self.yRatioToPixel(.38703))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -239,7 +251,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to mute position
-        mouse.position = (self.xRatioToPixel(.40989), self.yRatioToPixel(.35925))
+        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(.35925))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -254,6 +266,13 @@ class Actions:
     def unitLowThread(self):
         global preferences
 
+        try:
+            scalesValues = self.getScalesObj()
+            lowValue = scalesValues.UnitVoiceVolume.low
+        except:
+            lowValue = preferences.unit.low
+        print(lowValue)
+        
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -262,7 +281,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to low position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.unit.low)), self.yRatioToPixel(.35925))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.35925))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -277,6 +296,13 @@ class Actions:
     def unitHighThread(self):
         global preferences
 
+        try:
+            scalesValues = self.getScalesObj()
+            highValue = scalesValues.UnitVoiceVolume.high
+        except:
+            highValue = preferences.unit.high
+        print(highValue)
+  
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -285,7 +311,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to high position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.unit.high)), self.yRatioToPixel(.35925))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(.35925))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -331,7 +357,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse
-        mouse.position = (self.xRatioToPixel(.40989), self.yRatioToPixel(.33240))
+        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(.33240))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -346,6 +372,13 @@ class Actions:
     def proxLowThread(self):
         global preferences
 
+        try:
+            scalesValues = self.getScalesObj()
+            lowValue = scalesValues.ProximityVoiceVolume.low
+        except:
+            lowValue = preferences.proximity.low
+        print(lowValue)
+        
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -353,8 +386,8 @@ class Actions:
         # Go to audio tab
         self.goToAudio()
 
-        # Move mouse
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.proximity.low)), self.yRatioToPixel(.33240))
+        # Move mouse to proximity low position
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.33240))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -369,6 +402,13 @@ class Actions:
     def proxHighThread(self):
         global preferences
 
+        try:
+            scalesValues = self.getScalesObj()
+            highValue = scalesValues.ProximityVoiceVolume.high
+        except:
+            highValue = preferences.proximity.high
+        print(highValue)
+  
         # Focus Hell Let Loose
         if not self.focusHll():
             return
@@ -377,7 +417,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.proximity.high)), self.yRatioToPixel(.33240))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(.33240))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
