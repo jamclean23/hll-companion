@@ -8,6 +8,7 @@ from tkinter import *
 import os
 from PIL import ImageTk, Image  
 from multiprocessing.managers import BaseManager
+import types
 
 ##############################
 # Global Variables
@@ -234,18 +235,88 @@ def initGui():
         # On app mount update
         updateScalesValues(scales)
 
+        ###################################################
+        # SETTINGS MODAL
+        ###################################################
 
+        def handleOKSettingsModal(settingsFrame):
+            settingsFrame.destroy()
 
-        # Settings Button
+        def handleCancelSettingsModal(settingsFrame):
+            settingsFrame.destroy()
+
+        def startSettingsModal():
+            
+            # Default Preferences
+            defaultPreferences = types.SimpleNamespace()
+            defaultPreferences.resolution = types.SimpleNamespace()
+            defaultPreferences.resolution.width = 1920
+            defaultPreferences.resolution.height = 1080
+
+            # Placeholder values, to be replaced by reading from config file in local storage
+            savedHeight = StringVar()
+            savedHeight.set(defaultPreferences.resolution.height)
+
+            savedWidth = StringVar()
+            savedWidth.set(defaultPreferences.resolution.width)
+
+            # Create frame and overlay
+            settingsFrame = Frame(root, background='gray50')
+            settingsFrame.pack()
+            settingsFrame.place(height=330, width=400)
+            print('clicked')
+
+            # Resolution Settings
+            resFrame = Frame(settingsFrame, relief='ridge')
+            resFrame.pack()
+            resFrame.place(anchor='nw', width=150, height=75, x=20, y=20)
+
+            # Resolution label
+            resNameLbl = Label(resFrame, text='Resolution')
+            resNameLbl.pack(side=TOP)
+
+            # Width label
+            resXLbl = Label(resFrame, text='Width:')
+            resXLbl.pack()
+            resXLbl.place(anchor='ne', x=50, y=20)
+
+            # Width spinbox
+            resXSpin = Spinbox(resFrame, from_=0, to=3840, width=5, textvariable=savedWidth)
+            resXSpin.pack()
+            resXSpin.place(anchor='nw', x=95, y=22)
+
+            # Height label
+            resYLbl = Label(resFrame, text='Height:')
+            resYLbl.pack()
+            resYLbl.place(anchor='ne', x=50, y=40)
+
+            # Height spinbox
+            resYSpin = Spinbox(resFrame, from_=0, to=2160, width=5, textvariable=savedHeight)
+            resYSpin.pack()
+            resYSpin.place(anchor='nw', x=95, y=42)
+
+            # Render Ok button
+            okBtn = Button(settingsFrame, text='OK', command=lambda: handleOKSettingsModal(settingsFrame))
+            okBtn.pack()
+            okBtn.place(anchor='center', width=75, height=25, x=150, y=300)
+
+            # Render cancel button
+            cancelBtn = Button(settingsFrame, text='Cancel', command=lambda: handleCancelSettingsModal(settingsFrame))
+            cancelBtn.pack()
+            cancelBtn.place(anchor='center', width=75, height=25, x=250, y=300)
+
+        # Render settings Button
         def renderSettingsBtn():
             img = Image.open("./assets/gear.png")
             img.resize((50, 50), Image.ANTIALIAS)
             finalImg = ImageTk.PhotoImage(img)
-            settingsBtn = Button(root, image=finalImg)
+            settingsBtn = Button(root, image=finalImg, command=startSettingsModal)
             settingsBtn.pack()
             settingsBtn.image = finalImg
             settingsBtn.place(anchor='center', x=380, y=310)
         renderSettingsBtn()
+
+        ######################################################
 
         # Log Label
         def renderLog():
