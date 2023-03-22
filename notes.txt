@@ -1,0 +1,77 @@
+Notes for mouse positioning
+
+###################################################
+FOR RESOLUTION 1920x1080
+###################################################
+Options position:
+    x: 193
+    y: 551
+
+Audio tab position:
+    x: 840
+    y: 151
+
+Leadership
+    0 value position:
+        x: 787
+        y: 418
+    100 value position:
+        x: 1042
+        y: 418
+
+Unit
+    0 value position:
+        x: 787
+        y: 388
+    100 valoue position:
+        x: 1042
+        y: 388
+
+Proximity
+    0 value position:
+        x: 787
+        y: 359
+    100 value position:
+        x: 1042
+        y: 359
+
+
+##################################################
+RATIOS
+##################################################
+
+Ratio travel distance from 0 position to 100 position:
+    .13281
+
+
+Options position:
+    x: .1005
+    y: .51018
+
+Audio tab position:
+    x: .4375
+    y: .13981
+
+Leadership
+    0 value position:
+        x: .40989
+        y: .38703
+    100 value position:
+        x: .54270
+        y: .38703
+
+Unit
+    0 value position:
+        x: .40989
+        y: .35925
+    100 valoue position:
+        x: .54270
+        y: .35925
+
+Proximity
+    0 value position:
+        x: .40989
+        y: .33240
+    100 value position:
+        x: .54270
+        y: .33240

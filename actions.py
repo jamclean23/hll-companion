@@ -13,12 +13,35 @@ import threading
 from multiprocessing.managers import BaseManager
 import types
 
+##############################
+# LIBRARY ASSIGNMENT
+##############################
 
 keyboard = pynput.keyboard.Controller()
 mouse = pynput.mouse.Controller()
 
 
+###############################
+# GLOBAL VARS
+###############################
 
+resolution = types.SimpleNamespace()
+resolution.x = 1920
+resolution.y = 1080
+
+preferences = types.SimpleNamespace()
+# Leadership
+preferences.leadership = types.SimpleNamespace()
+preferences.leadership.low = 30
+preferences.leadership.high = 70
+# Unit
+preferences.unit = types.SimpleNamespace()
+preferences.unit.low = 30
+preferences.unit.high = 70
+# Proximity
+preferences.proximity = types.SimpleNamespace()
+preferences.proximity.low = 30
+preferences.proximity.high = 70
 
 ###############################
 # ACTIONS
@@ -26,6 +49,36 @@ mouse = pynput.mouse.Controller()
 
 class Actions:
 
+    def percentToRatio(self, percentage):
+        return (self.ratioScaleLength * (percentage / 100) + self.ratioScaleStart)
+
+    def goToAudio(self):
+        # Esc
+        keyboard.tap(Key.esc)
+        time.sleep(self.sleepInterval)
+        # Move mouse to options
+        mouse.position = (self.xRatioToPixel(.1005), self.yRatioToPixel(.51018))
+        time.sleep(self.sleepInterval)
+        # Left click
+        mouse.press(Button.left)
+        mouse.release(Button.left)
+        time.sleep(self.sleepInterval)
+        # Move mouse to audio tab
+        mouse.position = (self.xRatioToPixel(.4375), self.yRatioToPixel(.13981))
+        time.sleep(self.sleepInterval)
+        # Left click
+        mouse.press(Button.left)
+        mouse.release(Button.left)
+        time.sleep(self.sleepInterval)
+
+    def xRatioToPixel(self, ratio):
+        global resolution
+        return round(resolution.x * ratio)        
+
+    def yRatioToPixel(self, ratio):
+        global resolution
+        return round(resolution.y * ratio)
+    
     def getScalesObj(self):
         manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
         manager.connect()
@@ -63,11 +116,21 @@ class Actions:
             setattr(vars(resultObj)[name], 'low', valuePair[1].split(':')[1])
         return resultObj
 
-
     def focusWindow(self):
         winToBeFocused = pygetwindow.getWindowsWithTitle('Hell Let Loose')[0]
         winToBeFocused.activate()
     
+
+    def focusHll(self):
+        try:
+            self.focusWindow()
+            time.sleep(.2)
+            return True
+        except:
+            print('HLL Window not found')
+            self.commandRunning = False
+            return False
+
     # Leadership
 
     # Threads
@@ -76,32 +139,14 @@ class Actions:
         print(self.getScalesObj())
 
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (787, 420)
+
+        # Go to audio tab
+        self.goToAudio()
+
+        # Move mouse to leadership mute position
+        mouse.position = (self.xRatioToPixel(.40989), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -114,34 +159,17 @@ class Actions:
         self.commandRunning = False
 
     def leadershipLowThread(self):
+        global preferences
         
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (840, 420)
+
+        # Go to audio tab
+        self.goToAudio()
+
+        # Move mouse to leadership low position
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.leadership.low)), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -154,34 +182,17 @@ class Actions:
         self.commandRunning = False
 
     def leadershipHighThread(self):
+        global preferences
         
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (940, 420)
+
+        # Go to audio tab
+        self.goToAudio()
+
+        # Move mouse to leadership high
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.leadership.high)), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -221,32 +232,14 @@ class Actions:
     def unitMuteThread(self):
         
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (787, 385)
+
+        # Go to audio tab
+        self.goToAudio()
+
+        # Move mouse to mute position
+        mouse.position = (self.xRatioToPixel(.40989), self.yRatioToPixel(.35925))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -259,34 +252,17 @@ class Actions:
         self.commandRunning = False
 
     def unitLowThread(self):
-        
+        global preferences
+
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (840, 385)
+
+        # Go to audio tab
+        self.goToAudio()
+
+        # Move mouse to low position
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.unit.low)), self.yRatioToPixel(.35925))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -299,34 +275,17 @@ class Actions:
         self.commandRunning = False
 
     def unitHighThread(self):
-        
+        global preferences
+
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (940, 385)
+
+        # Go to audio tab
+        self.goToAudio()
+
+        # Move mouse to high position
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.unit.high)), self.yRatioToPixel(.35925))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -365,32 +324,14 @@ class Actions:
     def proxMuteThread(self):
         
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
+
+        # Go to audio tab
+        self.goToAudio()
+
         # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (787, 355)
+        mouse.position = (self.xRatioToPixel(.40989), self.yRatioToPixel(.33240))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -403,34 +344,17 @@ class Actions:
         self.commandRunning = False
 
     def proxLowThread(self):
-        
+        global preferences
+
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
+
+        # Go to audio tab
+        self.goToAudio()
+
         # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (840, 355)
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.proximity.low)), self.yRatioToPixel(.33240))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -443,34 +367,17 @@ class Actions:
         self.commandRunning = False
 
     def proxHighThread(self):
-        
+        global preferences
+
         # Focus Hell Let Loose
-        try:
-            self.focusWindow()
-            time.sleep(.2)
-        except:
-            print('HLL Window not found')
-            self.commandRunning = False
+        if not self.focusHll():
             return
-        # Esc
-        keyboard.tap(Key.esc)
-        time.sleep(self.sleepInterval)
+
+        # Go to audio tab
+        self.goToAudio()
+
         # Move mouse
-        mouse.position = (180, 567)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (816, 149)
-        time.sleep(self.sleepInterval)
-        # Left click
-        mouse.press(Button.left)
-        mouse.release(Button.left)
-        time.sleep(self.sleepInterval)
-        # Move mouse
-        mouse.position = (1000, 355)
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(preferences.proximity.high)), self.yRatioToPixel(.33240))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -510,3 +417,6 @@ class Actions:
         self.test = 'test'
         self.sleepInterval = .15
         self.commandRunning = False
+        self.ratioScaleLength = .13281
+        self.ratioScaleStart = .40989
+        self.ratioScaleEnd = .54270
