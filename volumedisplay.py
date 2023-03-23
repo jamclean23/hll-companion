@@ -11,6 +11,7 @@ from multiprocessing.managers import BaseManager
 import types
 import sys
 import threading
+import webbrowser
 
 ##############################
 # Global Variables
@@ -409,7 +410,7 @@ def initGui():
             # Local Storage
             savedSettings = getSettingsObj()
 
-            # Placeholder values, to be replaced by reading from config file in local storage
+            # Variables to be used in widgets
             savedHeight = StringVar()
             savedHeight.set(savedSettings.resolution.y)
 
@@ -501,6 +502,124 @@ def initGui():
             settingsBtn.place(anchor='center', x=380, y=310)
         renderSettingsBtn()
 
+        ######################################################
+        # INFO MODAL
+        ######################################################
+
+        def startInfoModal():
+            # Create frame and overlay
+            infoFrame = Frame(root, background='gray50')
+            infoFrame.pack()
+            infoFrame.place(height=330, width=400)            
+
+            # Event handler for OK Button
+            def handleOKInfoModal(infoFrame):
+                infoFrame.destroy()
+
+            # Render Ok button
+            okBtn = Button(infoFrame, text='OK', command=lambda: handleOKInfoModal(infoFrame))
+            okBtn.pack()
+            okBtn.place(anchor='center', width=75, height=25, x=200, y=310)
+
+            # Render Hotkeys Frame
+            hotFrame = Frame(infoFrame)
+            hotFrame.pack()
+            hotFrame.place(anchor='nw', width=360, height=160, x=20, y=10)
+
+            # Hotkey Title Label
+            hotTitleLbl = Label(hotFrame, text='Hotkeys\nAction triggers after Right Alt is released\nRelease all other keys while triggering hotkey')
+            hotTitleLbl.pack(side=TOP)
+
+            # Proximity hotkeys frame
+            proxFrame = Frame(hotFrame, bd=2, relief='ridge')
+            proxFrame.pack()
+            proxFrame.place(width=120, height=90, x=0, y=60, anchor='nw')
+            
+            proxTitle = Label(proxFrame, text='Proximity', anchor='center')
+            proxTitle.pack(side=TOP)
+
+            proxActionsContent = ' High:\nLow:\n Mute:'
+            proxActions = Label(proxFrame, anchor='nw', text=proxActionsContent)
+            proxActions.pack()
+            proxActions.place(width=55, height=60, anchor='nw', y=20, x=0)
+
+            proxKeysContent = ' RAlt + p\nRAlt + l\nRAlt + ,'
+            proxKeys = Label(proxFrame, anchor='nw', text=proxKeysContent)
+            proxKeys.pack()
+            proxKeys.place(width=55, height=60, anchor='nw', y=20, x=60)
+
+            # Unit hotkeys frame
+            unitFrame = Frame(hotFrame, bd=2, relief='ridge')
+            unitFrame.pack()
+            unitFrame.place(width=119, height=90, x=120, y=60, anchor='nw')
+            
+            unitTitle = Label(unitFrame, text='Unit', anchor='center')
+            unitTitle.pack(side=TOP)
+
+            unitActionsContent = ' High:\nLow:\n Mute:'
+            unitActions = Label(unitFrame, anchor='nw', text=unitActionsContent)
+            unitActions.pack()
+            unitActions.place(width=55, height=60, anchor='nw', y=20, x=0)
+
+            unitKeysContent = 'RAlt + [\nRAlt + ;\nRAlt + .'
+            unitKeys = Label(unitFrame, anchor='nw', text=unitKeysContent)
+            unitKeys.pack()
+            unitKeys.place(width=55, height=60, anchor='nw', y=20, x=60)            
+
+            # Leadership hotkeys frame
+            leadershipFrame = Frame(hotFrame, bd=2, relief='ridge')
+            leadershipFrame.pack()
+            leadershipFrame.place(width=120, height=90, x=239, y=60, anchor='nw')
+            
+            leadershipTitle = Label(leadershipFrame, text='Leadership', anchor='center')
+            leadershipTitle.pack(side=TOP)
+
+            leadershipActionsContent = ' High:\nLow:\n Mute:'
+            leadershipActions = Label(leadershipFrame, anchor='nw', text=leadershipActionsContent)
+            leadershipActions.pack()
+            leadershipActions.place(width=55, height=60, anchor='nw', y=20, x=0)
+
+            leadershipKeysContent = 'RAlt + ]\nRAlt + \'\nRAlt + /'
+            leadershipKeys = Label(leadershipFrame, anchor='nw', text=leadershipKeysContent)
+            leadershipKeys.pack()
+            leadershipKeys.place(width=55, height=60, anchor='nw', y=20, x=60)            
+
+            # Buy me a coffee frame
+
+            coffeeFrame = Frame(infoFrame)
+            coffeeFrame.pack()
+            coffeeFrame.place(anchor='nw', width=360, height=110, x=20, y=175)
+            
+            coffeeMessage = 'Buy Me a Beer?\nHas this app improved your gaming experience? \nAre you pulling off headshots at 400m because you\'re\n no longer distracted by all those PESKY callouts?\n We\'re glad you like the app!\nPlease consider buying us a beer for our hard work.'
+
+            coffeeMessageFrame = Label(coffeeFrame, text=coffeeMessage, pady=0)
+            coffeeMessageFrame.pack()
+            coffeeMessageFrame.place(width=300, height=90, anchor='n', x=180, y=2)
+
+            def openBeerLink():
+                url = 'https://www.buymeacoffee.com/rooseveltcat'
+                webbrowser.open_new(url)
+            # Render beer Button 
+            img = Image.open(getPath("beer.png"))
+            img.resize((50, 50), Image.ANTIALIAS)
+            finalImg = ImageTk.PhotoImage(img)
+            beerBtn = Button(coffeeFrame, image=finalImg, command=openBeerLink)
+            beerBtn.pack()
+            beerBtn.image = finalImg
+            beerBtn.place(anchor='se', width=35, height=35, x=355, y=105)            
+        
+
+        # Render info Button
+        def renderInfoBtn():
+            
+            img = Image.open(getPath("info.png"))
+            img.resize((50, 50), Image.ANTIALIAS)
+            finalImg = ImageTk.PhotoImage(img)
+            infoBtn = Button(root, image=finalImg, command=startInfoModal)
+            infoBtn.pack()
+            infoBtn.image = finalImg
+            infoBtn.place(anchor='center', x=380, y=270)
+        renderInfoBtn()
         ######################################################
 
         # Log Label
