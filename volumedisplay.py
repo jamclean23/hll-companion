@@ -273,6 +273,18 @@ def initGui():
         root.resizable(False, False)
         root.wm_iconbitmap(getPath('tank.ico'))
 
+        # Get Settings from settings txt and parse to object
+        def getSettingsObj():
+            settingsFile = open(settingsPath, 'r')
+            return parseSettingsString(settingsFile.read())
+
+        # Set the log message
+        def setLogMessage(message, mode='write'):
+            manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
+            manager.connect()
+            currentQueue = manager.getLogMessage()
+            currentQueue.put(message + '\\n' + mode)
+
         # Update log from ipc 
         def updateLogMessage(log):
 
@@ -281,8 +293,6 @@ def initGui():
                 manager.connect()
                 currentQueue = manager.getLogMessage()
                 
-                print(currentQueue.qsize())
-
                 if currentQueue.empty() == False:
                     queueString = currentQueue.get()
                     receivedMessage = queueString.split('\\n')[0]
@@ -397,9 +407,7 @@ def initGui():
         def startSettingsModal():
 
             # Local Storage
-
-            settingsFile = open(settingsPath, 'r')
-            savedSettings = parseSettingsString(settingsFile.read())
+            savedSettings = getSettingsObj()
 
             # Placeholder values, to be replaced by reading from config file in local storage
             savedHeight = StringVar()
@@ -469,8 +477,12 @@ def initGui():
             okBtn.pack()
             okBtn.place(anchor='center', width=75, height=25, x=150, y=300)
 
+            # Update log
+            setLogMessage('Settings Saved')
+
             def handleCancelSettingsModal(settingsFrame):
                 settingsFrame.destroy()
+                setLogMessage('Changes to Settings Discarded')
 
             # Render cancel button
             cancelBtn = Button(settingsFrame, text='Cancel', command=lambda: handleCancelSettingsModal(settingsFrame))
@@ -493,7 +505,12 @@ def initGui():
 
         # Log Label
         def renderLog():
-            log = actionsLog = Label(root, text='', fg='white', bg='black', anchor='center', justify=LEFT, relief='ridge')
+            # Initial Log Message
+            settingsObj = getSettingsObj()
+            message = 'Resolution at ' + settingsObj.resolution.x + ' x ' + settingsObj.resolution.y + '.  Click button to change.  →'  
+
+            # Render
+            log = actionsLog = Label(root, text=message, fg='white', bg='black', anchor='center', justify=LEFT, relief='ridge')
             actionsLog.pack()
             actionsLog.place(bordermode=INSIDE, width=300, height=25, x=200, y=310, anchor='center')
             return log
