@@ -124,7 +124,7 @@ class Actions:
     def focusHll(self):
         try:
             self.focusWindow()
-            time.sleep(.2)
+            time.sleep(.4)
             return True
         except:
             print('HLL Window not found')
@@ -161,9 +161,9 @@ class Actions:
 
         try:
             scalesValues = self.getScalesObj()
-            lowValue = scalesValues.LeadershipVoiceVolume.low
+            lowValue = int(scalesValues.LeadershipVoiceVolume.low)
         except:
-            lowValue = preferences.leadership.low
+            lowValue = int(preferences.leadership.low)
         print(lowValue)
 
         # Focus Hell Let Loose
@@ -174,6 +174,8 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership low position
+        print('Low Value:')
+        print(type(lowValue))
         mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
@@ -191,9 +193,9 @@ class Actions:
 
         try:
             scalesValues = self.getScalesObj()
-            highValue = scalesValues.LeadershipVoiceVolume.high
+            highValue = int(scalesValues.LeadershipVoiceVolume.high)
         except:
-            highValue = preferences.leadership.high
+            highValue = int(preferences.leadership.high)
         print(highValue)
   
         # Focus Hell Let Loose
@@ -268,9 +270,9 @@ class Actions:
 
         try:
             scalesValues = self.getScalesObj()
-            lowValue = scalesValues.UnitVoiceVolume.low
+            lowValue = int(scalesValues.UnitVoiceVolume.low)
         except:
-            lowValue = preferences.unit.low
+            lowValue = int(preferences.unit.low)
         print(lowValue)
         
         # Focus Hell Let Loose
@@ -298,9 +300,9 @@ class Actions:
 
         try:
             scalesValues = self.getScalesObj()
-            highValue = scalesValues.UnitVoiceVolume.high
+            highValue = int(scalesValues.UnitVoiceVolume.high)
         except:
-            highValue = preferences.unit.high
+            highValue = int(preferences.unit.high)
         print(highValue)
   
         # Focus Hell Let Loose
@@ -374,9 +376,9 @@ class Actions:
 
         try:
             scalesValues = self.getScalesObj()
-            lowValue = scalesValues.ProximityVoiceVolume.low
+            lowValue = int(scalesValues.ProximityVoiceVolume.low)
         except:
-            lowValue = preferences.proximity.low
+            lowValue = int(preferences.proximity.low)
         print(lowValue)
         
         # Focus Hell Let Loose
@@ -404,9 +406,9 @@ class Actions:
 
         try:
             scalesValues = self.getScalesObj()
-            highValue = scalesValues.ProximityVoiceVolume.high
+            highValue = int(scalesValues.ProximityVoiceVolume.high)
         except:
-            highValue = preferences.proximity.high
+            highValue = int(preferences.proximity.high)
         print(highValue)
   
         # Focus Hell Let Loose
@@ -455,7 +457,7 @@ class Actions:
 
     def __init__(self):
         self.test = 'test'
-        self.sleepInterval = .15
+        self.sleepInterval = .12
         self.commandRunning = False
         self.ratioScaleLength = .13281
         self.ratioScaleStart = .40989
