@@ -8,7 +8,7 @@ a = Analysis(
     ['hllcompanion.pyw'],
     pathex=[],
     binaries=[],
-    datas=[('gear.png', '.'), ('tank.ico', '.')],
+    datas=[('info.png', '.'), ('gear.png', '.'), ('tank.ico', '.'), ('beer.png', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

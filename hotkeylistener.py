@@ -150,6 +150,7 @@ def initListener():
                 # If right alt was not already being held, start a new thread
                 if self.heldRightAlt == False:
                     self.actionOngoing = False
+                    self.nextAction = lambda: self.doNothing()
                     keyThread = threading.Thread(target=self.listen, daemon=True)
                     keyThread.start()
                     self.heldRightAlt = True
