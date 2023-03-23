@@ -255,6 +255,7 @@ def initGui():
         root.title('HLL Companion')
         root.configure(background='gray30')
         root.resizable(False, False)
+        root.wm_iconbitmap(getPath('tank.ico'))
 
         # Set up update function
         def update(levelsData, frames):

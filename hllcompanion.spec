@@ -8,7 +8,7 @@ a = Analysis(
     ['hllcompanion.pyw'],
     pathex=[],
     binaries=[],
-    datas=[('gear.png', '.')],
+    datas=[('gear.png', '.'), ('tank.ico', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -41,5 +41,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['assets\\tank.ico'],
+    icon=['tank.ico'],
 )
