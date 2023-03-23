@@ -10,6 +10,7 @@ from PIL import ImageTk, Image
 from multiprocessing.managers import BaseManager
 import types
 import sys
+import threading
 
 ##############################
 # Global Variables
@@ -272,10 +273,36 @@ def initGui():
         root.resizable(False, False)
         root.wm_iconbitmap(getPath('tank.ico'))
 
+        # Update log from ipc 
+        def updateLogMessage(log):
+
+            def startLogUpdateThread(log):
+                manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
+                manager.connect()
+                currentQueue = manager.getLogMessage()
+                
+                print(currentQueue.qsize())
+
+                if currentQueue.empty() == False:
+                    queueString = currentQueue.get()
+                    receivedMessage = queueString.split('\\n')[0]
+                    receivedMode = queueString.split('\\n')[1]
+                    if receivedMode == 'write':
+                        message = receivedMessage
+                    elif receivedMode == 'append':
+                        message = log.cget("text") + receivedMessage
+                    else:
+                        message = ''
+                    log.config(text=message)
+
+            newThread = threading.Thread(target=lambda: startLogUpdateThread(log), daemon=True)
+            newThread.start()
+
         # Set up update function
-        def update(levelsData, frames):
+        def update(levelsData, frames, log):
             handleUpdateClick(levelsData, frames)
-            root.after(2000, lambda: update(levelsData, frames))
+            updateLogMessage(log)
+            root.after(500, lambda: update(levelsData, frames, log))
 
         # Render meters frame
         metersFrame = Frame(root, bg='gray10', relief='ridge', bd=2)
@@ -466,13 +493,14 @@ def initGui():
 
         # Log Label
         def renderLog():
-            actionsLog = Label(root, text='Log:', fg='white', bg='black', anchor='w', justify=LEFT, relief='ridge')
+            log = actionsLog = Label(root, text='', fg='white', bg='black', anchor='center', justify=LEFT, relief='ridge')
             actionsLog.pack()
             actionsLog.place(bordermode=INSIDE, width=300, height=25, x=200, y=310, anchor='center')
-        renderLog()
+            return log
+        log = renderLog()
 
         # call update function
-        root.after(2000, lambda: update(levelsData, frames))
+        root.after(500, lambda: update(levelsData, frames, log))
         root.mainloop()
 
     render()

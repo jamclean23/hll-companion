@@ -48,6 +48,12 @@ preferences.proximity.high = 70
 
 class Actions:
 
+    def setLogMessage(self, message, mode='write'):
+        manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
+        manager.connect()
+        currentQueue = manager.getLogMessage()
+        currentQueue.put(message + '\\n' + mode)
+
     def parseSettingsString(self, settingsString):
         resultObj = types.SimpleNamespace()
 
@@ -169,9 +175,11 @@ class Actions:
     def focusHll(self):
         try:
             self.focusWindow()
+            print('HLL Window Found')
             time.sleep(.4)
             return True
         except:
+            self.setLogMessage('HLL window not found')
             print('HLL Window not found')
             self.commandRunning = False
             return False
@@ -184,6 +192,7 @@ class Actions:
         # Focus Hell Let Loose
         if not self.focusHll():
             return
+        
 
         # Go to audio tab
         self.goToAudio()
@@ -209,7 +218,6 @@ class Actions:
             lowValue = int(scalesValues.LeadershipVoiceVolume.low)
         except:
             lowValue = int(preferences.leadership.low)
-        print(lowValue)
 
         # Focus Hell Let Loose
         if not self.focusHll():
@@ -219,8 +227,6 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership low position
-        print('Low Value:')
-        print(type(lowValue))
         mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.38703))
         time.sleep(self.sleepInterval)
         # Left Click
@@ -241,7 +247,6 @@ class Actions:
             highValue = int(scalesValues.LeadershipVoiceVolume.high)
         except:
             highValue = int(preferences.leadership.high)
-        print(highValue)
   
         # Focus Hell Let Loose
         if not self.focusHll():
@@ -266,28 +271,36 @@ class Actions:
 
     # Actions
     def leadershipMute(self):
-        self.updateResolution()
-        print('Setting leadership to mute')
         if self.commandRunning == False:
+            self.setLogMessage('Setting Leadership to Mute...')
+            print('Setting leadership to mute')
             self.updateResolution()
             newThread = threading.Thread(target=self.leadershipMuteThread, daemon=True)
             newThread.start()
             self.commandRunning = True
+        else:
+            print('Other command running')
 
     def leadershipLow(self):
-        print('Setting leadership to low')
-        self.updateResolution()
         if self.commandRunning == False:
+            self.updateResolution()
+            self.setLogMessage('Setting Leadership to Low')
+            print('Setting leadership to low')
             newThread = threading.Thread(target=self.leadershipLowThread, daemon=True)
             newThread.start()
             self.commandRunning = True
+        else:
+            print('Other command running')
     def leadershipHigh(self):
-        print('Setting leadership to high')
-        self.updateResolution()
         if self.commandRunning == False:
+            self.setLogMessage('Setting Leadership to High')
+            print('Setting leadership to high')
+            self.updateResolution()
             newThread = threading.Thread(target=self.leadershipHighThread, daemon=True)
             newThread.start()
             self.commandRunning = True
+        else:
+            print('Other command running')
 
     # Unit
 
@@ -486,6 +499,7 @@ class Actions:
 
     # Actions
     def proxMute(self):
+        self.setLogMessage('Setting Proximity to Mute')
         print('Setting proximity to mute')
         self.updateResolution()
         if self.commandRunning == False:
@@ -493,6 +507,7 @@ class Actions:
             newThread.start()
             self.commandRunning = True
     def proxLow(self):
+        self.setLogMessage('Setting Proximity to Low')        
         print('Setting proximity to low')
         self.updateResolution()
         if self.commandRunning == False:
@@ -500,6 +515,7 @@ class Actions:
             newThread.start()
             self.commandRunning = True
     def proxHigh(self):
+        self.setLogMessage('Setting Proximity to High')        
         print('Setting proximity to high')
         self.updateResolution()
         if self.commandRunning == False:
