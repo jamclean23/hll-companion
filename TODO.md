@@ -1,8 +1,7 @@
-Settings
-    -Make settings window  
-    -Show hotkeys in settings
-    -When clicked, display settings window
-    -save settings and load them at startup
+Info window
+    -Add button for window
+    -Show hotkeys in info window
+    -Add buy me a beer link
 
 Resolution support  
     -Add inputs for custom resolution
@@ -10,9 +9,6 @@ Resolution support
 
 Log bar for when an action is executing
     -Link to occurring actions
-
-Icon
-    -configure pyinstaller to include icon for window
 
 Always on top box
 

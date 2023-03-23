@@ -108,13 +108,33 @@ def initGui():
         objectsStrings = settingsString.split('][')
 
         for obj in objectsStrings:
+            newObj = obj
             # Check if first character is a bracket and remove
-            if obj[1] == '[':
-                obj = obj[1:]
-            if obj[-1] == ']':
-                obj = obj[:-1]
+            if newObj[1] == '[':
+                newObj = obj[1:]
+            if newObj[-1] == ']':
+                newObj = obj[:-1]
+            
 
+            # Split category name and assign to result
+            catName = newObj.split(':{')[0]
+            setattr(resultObj, catName, types.SimpleNamespace())
+            
+            # Remove last curly brace of value pairs
+            valuePairs = newObj.split(':{')[1]
+            if valuePairs[-1] == '}':
+                valuePairs = valuePairs[:-1]
+            
+            # Split into individual pairs
+            indvPairs = valuePairs.split(',')
+            
+            # Split into key value pairs
+            for pair in indvPairs:
+                keyValueList = pair.split(':')
+                # Assign attribute to category
+                setattr(getattr(resultObj, catName), keyValueList[0], keyValueList[1])
             # LEFT OFF HERE
+            return resultObj
 
 
 
@@ -383,7 +403,6 @@ def initGui():
             settingsFrame = Frame(root, background='gray50')
             settingsFrame.pack()
             settingsFrame.place(height=330, width=400)
-            print('clicked')
 
             # Resolution Settings
             resFrame = Frame(settingsFrame, relief='ridge')
