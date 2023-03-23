@@ -12,6 +12,7 @@ import time
 import threading
 from multiprocessing.managers import BaseManager
 import types
+import os
 
 ##############################
 # LIBRARY ASSIGNMENT
@@ -24,10 +25,6 @@ mouse = pynput.mouse.Controller()
 ###############################
 # GLOBAL VARS
 ###############################
-
-resolution = types.SimpleNamespace()
-resolution.x = 1920
-resolution.y = 1080
 
 preferences = types.SimpleNamespace()
 # Leadership
@@ -43,11 +40,61 @@ preferences.proximity = types.SimpleNamespace()
 preferences.proximity.low = 30
 preferences.proximity.high = 70
 
+
+
 ###############################
 # ACTIONS
 ###############################
 
 class Actions:
+
+    def parseSettingsString(self, settingsString):
+        resultObj = types.SimpleNamespace()
+
+        # Remove first bracket
+        settingsString = settingsString[1:]
+        # Remove last bracket
+        settingsString = settingsString[:-1]
+
+        # Split objects
+        objectsStrings = settingsString.split('][')
+
+        for obj in objectsStrings:
+            newObj = obj
+            # Check if first character is a bracket and remove
+            if newObj[1] == '[':
+                newObj = obj[1:]
+            if newObj[-1] == ']':
+                newObj = obj[:-1]
+            
+
+            # Split category name and assign to result
+            catName = newObj.split(':{')[0]
+            setattr(resultObj, catName, types.SimpleNamespace())
+            
+            # Remove last curly brace of value pairs
+            valuePairs = newObj.split(':{')[1]
+            if valuePairs[-1] == '}':
+                valuePairs = valuePairs[:-1]
+            
+            # Split into individual pairs
+            indvPairs = valuePairs.split(',')
+            
+            # Split into key value pairs
+            for pair in indvPairs:
+                keyValueList = pair.split(':')
+                # Assign attribute to category
+                setattr(getattr(resultObj, catName), keyValueList[0], keyValueList[1])
+            return resultObj
+
+    def updateResolution(self):
+        # Read and parse settings.txt
+        settingsFile = open(self.settingsPath, 'r')
+        settingsObj = self.parseSettingsString(settingsFile.read())
+
+        # Assign to self.resolution
+        self.resolution.x = int(settingsObj.resolution.x)
+        self.resolution.y = int(settingsObj.resolution.y) 
 
     def percentToRatio(self, percentage):
         return (self.ratioScaleLength * (percentage / 100) + self.ratioScaleStart)
@@ -72,12 +119,10 @@ class Actions:
         time.sleep(self.sleepInterval)
 
     def xRatioToPixel(self, ratio):
-        global resolution
-        return round(resolution.x * ratio)        
+        return round(self.resolution.x * ratio)        
 
     def yRatioToPixel(self, ratio):
-        global resolution
-        return round(resolution.y * ratio)
+        return round(self.resolution.y * ratio)
     
     def getScalesObj(self):
         manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
@@ -221,20 +266,24 @@ class Actions:
 
     # Actions
     def leadershipMute(self):
+        self.updateResolution()
         print('Setting leadership to mute')
         if self.commandRunning == False:
+            self.updateResolution()
             newThread = threading.Thread(target=self.leadershipMuteThread, daemon=True)
             newThread.start()
             self.commandRunning = True
 
     def leadershipLow(self):
         print('Setting leadership to low')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.leadershipLowThread, daemon=True)
             newThread.start()
             self.commandRunning = True
     def leadershipHigh(self):
         print('Setting leadership to high')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.leadershipHighThread, daemon=True)
             newThread.start()
@@ -329,18 +378,21 @@ class Actions:
     # Actions
     def unitMute(self):
         print('Setting unit to mute')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.unitMuteThread, daemon=True)
             newThread.start()
             self.commandRunning = True
     def unitLow(self):
         print('Setting unit to low')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.unitLowThread, daemon=True)
             newThread.start()
             self.commandRunning = True
     def unitHigh(self):
         print('Setting unit to high')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.unitHighThread, daemon=True)
             newThread.start()
@@ -435,18 +487,21 @@ class Actions:
     # Actions
     def proxMute(self):
         print('Setting proximity to mute')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.proxMuteThread, daemon=True)
             newThread.start()
             self.commandRunning = True
     def proxLow(self):
         print('Setting proximity to low')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.proxLowThread, daemon=True)
             newThread.start()
             self.commandRunning = True
     def proxHigh(self):
         print('Setting proximity to high')
+        self.updateResolution()
         if self.commandRunning == False:
             newThread = threading.Thread(target=self.proxHighThread, daemon=True)
             newThread.start()
@@ -462,3 +517,8 @@ class Actions:
         self.ratioScaleLength = .13281
         self.ratioScaleStart = .40989
         self.ratioScaleEnd = .54270
+        self.resolution = types.SimpleNamespace()
+        self.resolution.x = 1920
+        self.resolution.y = 1080
+        self.storagePath = os.path.join(os.getenv('LOCALAPPDATA'), 'hll-companion')
+        self.settingsPath = os.path.join(self.storagePath, 'settings.txt')

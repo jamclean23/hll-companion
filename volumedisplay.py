@@ -133,12 +133,7 @@ def initGui():
                 keyValueList = pair.split(':')
                 # Assign attribute to category
                 setattr(getattr(resultObj, catName), keyValueList[0], keyValueList[1])
-            # LEFT OFF HERE
             return resultObj
-
-
-
-
 
     def parseScaleValuesString(scaleValuesString):
 
@@ -372,32 +367,19 @@ def initGui():
         # SETTINGS MODAL
         ###################################################
 
-        def handleOKSettingsModal(settingsFrame):
-            settingsFrame.destroy()
-
-        def handleCancelSettingsModal(settingsFrame):
-            settingsFrame.destroy()
-
         def startSettingsModal():
-            
-
-            # Default Preferences
-            preferences = types.SimpleNamespace()
-            preferences.resolution = types.SimpleNamespace()
-            preferences.resolution.width = 1920
-            preferences.resolution.height = 1080
 
             # Local Storage
 
             settingsFile = open(settingsPath, 'r')
-            parseSettingsString(settingsFile.read())
+            savedSettings = parseSettingsString(settingsFile.read())
 
             # Placeholder values, to be replaced by reading from config file in local storage
             savedHeight = StringVar()
-            savedHeight.set(preferences.resolution.height)
+            savedHeight.set(savedSettings.resolution.y)
 
             savedWidth = StringVar()
-            savedWidth.set(preferences.resolution.width)
+            savedWidth.set(savedSettings.resolution.x)
 
             # Create frame and overlay
             settingsFrame = Frame(root, background='gray50')
@@ -433,10 +415,35 @@ def initGui():
             resYSpin.pack()
             resYSpin.place(anchor='nw', x=95, y=42)
 
+            def handleOKSettingsModal(settingsFrame):
+                stringToWrite = '['
+
+                # Serialize resolution settings
+                stringToWrite += 'resolution:{'
+                # Width
+                stringToWrite += 'x:' + savedWidth.get()
+                # New Item
+                stringToWrite += ','
+                # Height
+                stringToWrite += 'y:' + savedHeight.get() + '}'
+
+                # Close String
+                stringToWrite += ']'
+
+                # Write to file
+                settingsFile = open(settingsPath, 'w')
+                settingsFile.write(stringToWrite)
+
+                # Remove Gui
+                settingsFrame.destroy()
+
             # Render Ok button
             okBtn = Button(settingsFrame, text='OK', command=lambda: handleOKSettingsModal(settingsFrame))
             okBtn.pack()
             okBtn.place(anchor='center', width=75, height=25, x=150, y=300)
+
+            def handleCancelSettingsModal(settingsFrame):
+                settingsFrame.destroy()
 
             # Render cancel button
             cancelBtn = Button(settingsFrame, text='Cancel', command=lambda: handleCancelSettingsModal(settingsFrame))
