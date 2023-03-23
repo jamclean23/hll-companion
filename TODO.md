@@ -4,7 +4,6 @@ Info window
     -Add buy me a beer link
 
 Resolution support  
-    -Add inputs for custom resolution
     -Show resolution in log at startup
 
 Log bar for when an action is executing
