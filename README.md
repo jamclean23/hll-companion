@@ -1,4 +1,4 @@
-    <h2 style="border-top: 2px solid white">Overview</h2>
+    <h2>Overview</h2>
     <p>This app is designed to allow for on the fly balancing of the in game chat for Hll. It's written in Python, and uses the pynput library to both listen for and execute mouse events in game.</p>
 
     <h4>Volume Bars</h4>
@@ -17,7 +17,7 @@
     <p></p>
 
 
-    <br>
+    <br/>
     <h2>Install Instructions (Subject to Change with Hosting)</h2>
     <p>This app uses the pynput library for listening for and executing key/mouse events. As a result, it can trigger flags from most anti-virus software. Downloading homebrew software from the internet is always a toss up, and I advise you to use your best judgement when installing any software. However, the source code for the app is available on this repository, and I invite you to look through it.</p>
     <p>Here are the instructions for downloading on Google Chrome and adding an exception for Windows Defender:</p>
