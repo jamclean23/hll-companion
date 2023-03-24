@@ -21,6 +21,7 @@ ipcQueueItems = []
 storagePath = os.path.join(os.getenv('LOCALAPPDATA'), 'hll-companion')
 settingsPath = os.path.join(storagePath, 'settings.txt')
 scalesPositionsPath = os.path.join(storagePath, 'sliders.txt')
+windowOnTop = 0
 
 ##############################
 # INITIALIZE WINDOW
@@ -68,7 +69,7 @@ def initGui():
     def createSettingsFile():
         print('Creating Settings file')
         settingsFile = open(settingsPath, 'w')
-        settingsFile.write('[resolution:{x:1920,y:1080}]')
+        settingsFile.write('[resolution:{x:1920,y:1080}][stayOnTop:{value:0}]')
 
     def createSlidersFile():
         print('Creatings sliders.txt...')
@@ -110,6 +111,7 @@ def initGui():
         objectsStrings = settingsString.split('][')
 
         for obj in objectsStrings:
+            print(obj)
             newObj = obj
             # Check if first character is a bracket and remove
             if newObj[1] == '[':
@@ -119,8 +121,9 @@ def initGui():
             
 
             # Split category name and assign to result
+            catObj = types.SimpleNamespace()
             catName = newObj.split(':{')[0]
-            setattr(resultObj, catName, types.SimpleNamespace())
+            setattr(catObj, catName, types.SimpleNamespace())
             
             # Remove last curly brace of value pairs
             valuePairs = newObj.split(':{')[1]
@@ -134,8 +137,9 @@ def initGui():
             for pair in indvPairs:
                 keyValueList = pair.split(':')
                 # Assign attribute to category
-                setattr(getattr(resultObj, catName), keyValueList[0], keyValueList[1])
-            return resultObj
+                setattr(catObj, keyValueList[0], keyValueList[1])
+                setattr(resultObj, catName, catObj)
+        return resultObj
 
     def parseScaleValuesString(scaleValuesString):
 
@@ -279,6 +283,16 @@ def initGui():
             settingsFile = open(settingsPath, 'r')
             return parseSettingsString(settingsFile.read())
 
+        # Check if window should be on top and update global variable
+        def checkIfTop(displayOnTop=False):
+            
+            if displayOnTop == False:
+                savedSettings = getSettingsObj()
+                global windowOnTop
+                windowOnTop = int(savedSettings.stayOnTop.value)
+            elif displayOnTop == True:
+                windowOnTop = 1
+
         # Set the log message
         def setLogMessage(message, mode='write'):
             manager = BaseManager(address=('localhost', 50000), authkey=b'blahkey')
@@ -313,6 +327,13 @@ def initGui():
         def update(levelsData, frames, log):
             handleUpdateClick(levelsData, frames)
             updateLogMessage(log)
+
+            # Stay on top?
+            if windowOnTop == 1:
+                root.attributes('-topmost', True)
+            else:
+                root.attributes('-topmost', False)
+
             root.after(500, lambda: update(levelsData, frames, log))
 
         # Render meters frame
@@ -362,7 +383,6 @@ def initGui():
         def renderScales(levelsData):
             scalesFile = open(scalesPositionsPath, 'r')
             scalesValues = parseScaleValuesString(scalesFile.read())
-            print(scalesValues)
 
             scales = []
             i = 0
@@ -451,6 +471,21 @@ def initGui():
             resYSpin.pack()
             resYSpin.place(anchor='nw', x=95, y=42)
 
+            # Stay on top
+            stayTopFrame = Frame(settingsFrame, relief='ridge')
+            stayTopFrame.pack()
+            stayTopFrame.place(anchor='ne', width=150, height=75, x=380, y=20)
+
+            stayTopLabel = Label(stayTopFrame, text='Stay On Top')
+            stayTopLabel.pack()
+            stayTopLabel.place(anchor='nw', x=5, y=5)
+
+            stayTop = IntVar()
+            stayTop.set(int(savedSettings.stayOnTop.value))
+            stayTopCheck = Checkbutton(stayTopFrame, variable=stayTop, onvalue=1, offvalue=0 )
+            stayTopCheck.pack()
+            stayTopCheck.place(anchor='ne', x=145, y=5)
+
             def handleOKSettingsModal(settingsFrame):
                 stringToWrite = '['
 
@@ -466,9 +501,15 @@ def initGui():
                 # Close String
                 stringToWrite += ']'
 
+                # # Serialize stay on top setting
+                stringToWrite += '[stayOnTop:{value:' + str(stayTop.get()) + '}]'
+
                 # Write to file
                 settingsFile = open(settingsPath, 'w')
                 settingsFile.write(stringToWrite)
+                settingsFile.close()
+
+                checkIfTop(bool(stayTop.get()))
 
                 # Remove Gui
                 settingsFrame.destroy()
@@ -636,6 +677,7 @@ def initGui():
         log = renderLog()
 
         # call update function
+        checkIfTop()
         root.after(500, lambda: update(levelsData, frames, log))
         root.mainloop()
 
