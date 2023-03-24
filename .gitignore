@@ -2,3 +2,5 @@ __pycache__/
 build/
 dist/
 –onefile.spec
+"Hll Companion.spec"
+hllcompanion.spec
