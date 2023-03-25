@@ -5,21 +5,30 @@ This app is designed to allow for on the fly balancing of the in game chat for H
 
 ### Volume Bars
 
+The bars at the top of the window represent the currently set volumes in Hll. They do not reflect the values of the sliders until a hotkey action is triggered.
+
 ### Preset Sliders  
+
+The sliders represent the target values for a triggered hotkey action. For example, setting a slider to 50 and then triggering the corresponding hotkey will start a macro which will set the ingame value to 50%.
 
 ### Log Bar
 
+The log bar is used for relaying information important to the app, including settings saves and the progress of triggered actions.
 
 ### Info Menu
 
+This menu displays reference to the hotkey combinations, as well as providing a link to my Buy Me A Beer page.
+
 ### Settings Menu
 
+The resolution setting is used for the adjusting output of macros, not for displaying the app.  
+There is also an option for always displaying this app over other windows.  
 
 # Install Instructions (Subject to Change with Hosting)
 
 1. Click here to go to the Google Drive: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
 2. Click the download button.  
-3. In the dowloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".
+3. In the downloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".
 4. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
 5. In your extracted folder, right click on "Hll Companion.exe" and Run as administrator.
 6. Windows will display a popup saying that it blocked an unrecognized app. Click "More info", then "Run anyway".  (This app is unsigned, therefore Microsoft doesn't know what it is.) 
