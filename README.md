@@ -17,9 +17,6 @@ This app is designed to allow for on the fly balancing of the in game chat for H
 
 # Install Instructions (Subject to Change with Hosting)
 
-This app uses the pynput library for listening for and executing key/mouse events. As a result, it can trigger flags from most anti-virus software. Downloading homebrew software from the internet is always a toss up, and I advise you to use your best judgement when installing any software. However, the source code for the app is available on this repository, and I invite you to look through it.  
-Here are the instructions for downloading on Google Chrome and adding an exception for Windows Defender:  
-
 1. Click here to go to the Google Drive: [Hll Companion](https://drive.google.com/file/d/1biZRhVYarWC0FqG2UjF2KotvagzNusrM/view?usp=sharing)  
 2. Click the download button in the upper right hand corner.  
 3. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
