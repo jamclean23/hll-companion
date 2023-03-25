@@ -4,3 +4,4 @@ dist/
 –onefile.spec
 "Hll Companion.spec"
 hllcompanion.spec
+nuitka-dist/
