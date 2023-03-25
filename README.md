@@ -4,6 +4,8 @@
 
 This app is designed to allow for on the fly balancing of the in game chat for Hll. It's written in Python, and uses the pynput library to both listen for and execute mouse events in game.  
 
+The macros are currently only accurate when in a match and spawned in.  
+
 ### Volume Bars
 
 The bars at the top of the window represent the currently set volumes in Hll. They do not reflect the values of the sliders until a hotkey action is triggered.
