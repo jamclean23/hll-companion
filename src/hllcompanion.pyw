@@ -11,6 +11,8 @@ from multiprocessing.managers import BaseManager
 import threading
 import time
 import queue
+import win32com
+
 
 
 ##############################
