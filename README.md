@@ -25,6 +25,10 @@ This menu displays reference to the hotkey combinations, as well as providing a 
 The resolution setting is used for the adjusting output of macros, not for displaying the app.  
 There is also an option for always displaying this app over other windows.  
 
+# Compatibility
+
+Tested on Windows 10
+
 # Install Instructions (Subject to Change with Hosting)
 
 1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
