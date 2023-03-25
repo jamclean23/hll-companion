@@ -20,10 +20,9 @@ This app is designed to allow for on the fly balancing of the in game chat for H
 This app uses the pynput library for listening for and executing key/mouse events. As a result, it can trigger flags from most anti-virus software. Downloading homebrew software from the internet is always a toss up, and I advise you to use your best judgement when installing any software. However, the source code for the app is available on this repository, and I invite you to look through it.  
 Here are the instructions for downloading on Google Chrome and adding an exception for Windows Defender:  
 
-1. Install [7-zip](https://www.7-zip.org/) if you don't already have it installed.  
-2. Click here to go to the Google Drive: [Hll Companion](https://drive.google.com/file/d/1x7emlJebSJpgXhV_slgBzGi_pQYtShHO/view?usp=sharing)  
-3. Click the download button in the upper right hand corner.  
-4. In the downloads folder, right click on hllcompanion.7zip, and extract the file.  
-5. Windows Defender will have a popup in the bottom right of the screen. Click it to open the window.  
-6. Under current threats, click the dropdown and choose "Allow on device".  
-7. You're good to go! The exe is portable, and will run from the location of your choice.  
+1. Click here to go to the Google Drive: [Hll Companion](https://drive.google.com/file/d/1biZRhVYarWC0FqG2UjF2KotvagzNusrM/view?usp=sharing)  
+2. Click the download button in the upper right hand corner.  
+3. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
+4. In your extracted folder, right click on "Hll Companion.exe" and Run as administrator.
+5. Windows will display a popup saying that it blocked an unrecognized file. Click "More info", then "Run anyway"  
+6. You're good to go! The exe is portable, and will run from the location of your choice. If your resolution isn't 1920x1080, make sure to change it in the settings.  
