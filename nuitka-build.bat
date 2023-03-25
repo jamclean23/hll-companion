@@ -1,0 +1,1 @@
+nuitka src/hllcompanion.pyw  --standalone --output-dir=nuitka-dist --include-data-dir=./src/assets=assets --include-plugin-directory=./lib/tcl8.6 --include-plugin-directory=./lib/tk8.6

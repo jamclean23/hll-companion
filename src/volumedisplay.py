@@ -273,7 +273,7 @@ def initGui():
         root.title('HLL Companion')
         root.configure(background='gray30')
         root.resizable(False, False)
-        root.wm_iconbitmap(getPath("assets\\tank.ico"))
+        # root.wm_iconbitmap(getPath("assets\\tank.ico"))
 
         # Get Settings from settings txt and parse to object
         def getSettingsObj():
@@ -531,12 +531,12 @@ def initGui():
         # Render settings Button
         def renderSettingsBtn():
             
-            img = Image.open(getPath("assets\\gear.png"))
-            img.resize((50, 50), Image.ANTIALIAS)
-            finalImg = ImageTk.PhotoImage(img)
-            settingsBtn = Button(root, image=finalImg, command=startSettingsModal)
+            # img = Image.open(getPath("assets\\gear.png"))
+            # img.resize((50, 50), Image.ANTIALIAS)
+            # finalImg = ImageTk.PhotoImage(img)
+            settingsBtn = Button(root, command=startSettingsModal) #  image=finalImg,
             settingsBtn.pack()
-            settingsBtn.image = finalImg
+            # settingsBtn.image = finalImg
             settingsBtn.place(anchor='center', x=380, y=310)
         renderSettingsBtn()
 
@@ -638,24 +638,24 @@ def initGui():
                 url = 'https://www.buymeacoffee.com/rooseveltcat'
                 webbrowser.open_new(url)
             # Render beer Button 
-            img = Image.open(getPath("assets\\beer.png"))
-            img.resize((50, 50), Image.ANTIALIAS)
-            finalImg = ImageTk.PhotoImage(img)
-            beerBtn = Button(coffeeFrame, image=finalImg, command=openBeerLink)
+            # img = Image.open(getPath("assets\\beer.png"))
+            # img.resize((50, 50), Image.ANTIALIAS)
+            # finalImg = ImageTk.PhotoImage(img)
+            beerBtn = Button(coffeeFrame, command=openBeerLink) #  image=finalImg,
             beerBtn.pack()
-            beerBtn.image = finalImg
+            # beerBtn.image = finalImg
             beerBtn.place(anchor='se', width=35, height=35, x=355, y=105)            
         
 
         # Render info Button
         def renderInfoBtn():
             
-            img = Image.open(getPath("assets\\info.png"))
-            img.resize((50, 50), Image.ANTIALIAS)
-            finalImg = ImageTk.PhotoImage(img)
-            infoBtn = Button(root, image=finalImg, command=startInfoModal)
+            # img = Image.open(getPath("assets\\info.png"))
+            # img.resize((50, 50), Image.ANTIALIAS)
+            # finalImg = ImageTk.PhotoImage(img)
+            infoBtn = Button(root, command=startInfoModal) # , image=finalImg
             infoBtn.pack()
-            infoBtn.image = finalImg
+            # infoBtn.image = finalImg
             infoBtn.place(anchor='center', x=380, y=270)
         renderInfoBtn()
         ######################################################
