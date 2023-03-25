@@ -19,7 +19,8 @@ This app is designed to allow for on the fly balancing of the in game chat for H
 
 1. Click here to go to the Google Drive: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
 2. Click the download button.  
-3. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
-4. In your extracted folder, right click on "Hll Companion.exe" and Run as administrator.
-5. Windows will display a popup saying that it blocked an unrecognized file. Click "More info", then "Run anyway"  
-6. You're good to go! The exe is portable, and will run from the location of your choice. If your resolution isn't 1920x1080, make sure to change it in the settings.  
+3. In the dowloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".
+4. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
+5. In your extracted folder, right click on "Hll Companion.exe" and Run as administrator.
+6. Windows will display a popup saying that it blocked an unrecognized app. Click "More info", then "Run anyway".  (This app is unsigned, therefore Microsoft doesn't know what it is) 
+7. You're good to go! The exe is portable, and will run from the location of your choice. If your resolution isn't 1920x1080, make sure to change it in the settings.  
