@@ -1,0 +1,1 @@
+pyinstaller -w --add-data "info.png;." --add-data "gear.png;." --add-data "tank.ico;." --add-data "beer.png;."  --icon "tank.ico" hllcompanion.pyw
