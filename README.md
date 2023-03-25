@@ -27,11 +27,11 @@ There is also an option for always displaying this app over other windows.
 
 # Install Instructions (Subject to Change with Hosting)
 
-1. Click here to go to the Google Drive: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
+1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
 2. Click the download button.  
 3. In the downloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".
 4. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
-5. In your extracted folder, right click on "Hll Companion.exe" and Run as administrator.
+5. In your extracted folder, right click on "Hll Companion.exe" and "Run as administrator".
 6. Windows will display a popup saying that it blocked an unrecognized app. Click "More info", then "Run anyway".  (This app is unsigned, therefore Microsoft doesn't know what it is.) 
 7. You're good to go! The exe is portable, and will run from the location of your choice. If your resolution isn't 1920x1080, make sure to change it in the settings.  
 
