@@ -45,7 +45,7 @@ Tested on Windows 10
 
 # Install Instructions
 
-1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/cu4wkdjr76bxc4b/Hll_Companion_v1.1.zip/file)  
+1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/5gthfkp1jp7tlqr/Hll_Companion_v1.3.zip/file)  
 2. Click the download button.  
 3. In the downloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".
 3.5. Alternatively, go to your browser's downloads menu, expand the options for the download, and choose "Keep".
