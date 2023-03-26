@@ -28,7 +28,7 @@ The log bar is used for relaying information important to the app, including set
 
 ### Info Menu
 
-![info](readme-images/Info.png)
+![info](readme-images/info2.png)
 
 This menu displays reference to the hotkey combinations, as well as providing a link to my Buy Me A Beer page.
 
