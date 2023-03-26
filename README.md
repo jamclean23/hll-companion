@@ -55,6 +55,8 @@ Tested on Windows 10
 
 # Starting the App
 
+Note: If Hll is not installed, app will not run.
+
 1. Right click on Hll Companion.exe.  
 2. Select "Run as administrator".  
 3. If it is your first time running the app, make sure to set your resolution in the settings menu. (Gear button on the bottom right)  
