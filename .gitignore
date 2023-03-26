@@ -5,3 +5,4 @@ dist/
 "Hll Companion.spec"
 hllcompanion.spec
 nuitka-dist/
+pyinstaller-dist/

@@ -1,0 +1,1 @@
+pyinstaller ./src/hllcompanion.pyw --distpath ./pyinstaller-dist/dist --workpath ./pyinstaller-dist/build --clean -F --specpath pyinstaller-dist --name "Hll Companion" --add-data "D:\repos\hll-companion\src\assets;assets/" --icon "D:\repos\hll-companion\src\assets\tank.ico"
