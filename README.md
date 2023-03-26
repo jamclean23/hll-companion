@@ -34,7 +34,7 @@ This menu displays reference to the hotkey combinations, as well as providing a 
 
 ### Settings Menu
 
-![settings](readme-images/settings.png)
+![settings](readme-images/settings2.png)
 
 The resolution setting is used for the adjusting output of macros, not for displaying the app.  
 There is also an option for always displaying this app over other windows.  
@@ -43,7 +43,7 @@ There is also an option for always displaying this app over other windows.
 
 Tested on Windows 10
 
-# Install Instructions (Subject to Change with Hosting)
+# Install Instructions
 
 1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
 2. Click the download button.  
