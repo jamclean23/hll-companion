@@ -10,21 +10,31 @@ The macros are currently only accurate when in a match and spawned in.
 
 ### Volume Bars
 
+![volume bars](readme-images/levels.png)
+
 The bars at the top of the window represent the currently set volumes in Hll. They do not reflect the values of the sliders until a hotkey action is triggered.
 
 ### Preset Sliders  
+
+![sliders](readme-images/sliders.png)
 
 The sliders represent the target values for a triggered hotkey action. For example, setting a slider to 50 and then triggering the corresponding hotkey will start a macro which will set the ingame value to 50%.
 
 ### Log Bar
 
+![log](readme-images/logbar.png)
+
 The log bar is used for relaying information important to the app, including settings saves and the progress of triggered actions.
 
 ### Info Menu
 
+![info](readme-images/Info.png)
+
 This menu displays reference to the hotkey combinations, as well as providing a link to my Buy Me A Beer page.
 
 ### Settings Menu
+
+![settings](readme-images/settings.png)
 
 The resolution setting is used for the adjusting output of macros, not for displaying the app.  
 There is also an option for always displaying this app over other windows.  
