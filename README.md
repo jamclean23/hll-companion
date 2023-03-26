@@ -6,7 +6,7 @@ This app is designed to allow for on the fly balancing of the in game chat for H
 
 The macros are currently only accurate when in a match and spawned in.  
 
-![overview-images](https://github.com/[username]/[reponame]/blob/[branch]/readme-images/overview.png?raw=true)
+![overview](readme-images/overview.png)
 
 ### Volume Bars
 
