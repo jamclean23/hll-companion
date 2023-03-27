@@ -2,7 +2,7 @@
 
 # Overview
 
-This app is designed to allow for on the fly balancing of the in game chat for Hll. It's written in Python, and uses the pynput library to both listen for and execute mouse events in game.  
+This app is designed to allow for on the fly balancing of the in game chat for Hll. It's written in Python, and uses the pynput library to both listen for and keys and execute mouse events in game.  
 
 The macros are currently only accurate when in a match and spawned in.  
 
