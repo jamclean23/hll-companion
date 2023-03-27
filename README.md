@@ -47,11 +47,12 @@ Tested on Windows 10
 
 1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
 2. Click the download button.  
-3. In the downloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".  
-4. Alternatively, go to your browser's downloads menu, expand the options for the download, and choose "Keep".
-5. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
-6. Your extracted folder will hold "Hll Companion.exe" and a README.md.
-7. You're good to go! Make sure to run as administrator. The exe is portable, and will run from the location of your choice. If your resolution isn't 1920x1080, make sure to change it in the settings.  
+3. If your download is blocked:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- In the downloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Alternatively, go to your browser's downloads menu, expand the options for the download, and choose "Keep".
+4. In the downloads folder, right click on "Hll Companion.zip", and extract the folder.  
+5. Your extracted folder will hold "Hll Companion.exe" and a README.md.
+6. You're good to go! Make sure to run as administrator. The exe is portable, and will run from the location of your choice. If your resolution isn't 1920x1080, make sure to change it in the settings.  
 
 # Starting the App
 
