@@ -43,7 +43,8 @@ There is also an option for always displaying this app over other windows.
 
 # Compatibility
 
-Tested on Windows 10
+Tested on Windows 10.  
+Currently only 1080p is supported with accurate mouse click events.
 
 # Install Instructions
 
