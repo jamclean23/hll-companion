@@ -108,7 +108,6 @@ def initGui():
         objectsStrings = settingsString.split('][')
 
         for obj in objectsStrings:
-            print(obj)
             newObj = obj
             # Check if first character is a bracket and remove
             if newObj[1] == '[':
@@ -275,6 +274,10 @@ def initGui():
         root.resizable(False, False)
         root.wm_iconbitmap(getPath("assets\\tank.ico"))
 
+        # Global variable for settings menu
+        savedResolution = StringVar();
+
+
         # Get Settings from settings txt and parse to object
         def getSettingsObj():
             settingsFile = open(settingsPath, 'r')
@@ -427,7 +430,6 @@ def initGui():
             # Local Storage
             savedSettings = getSettingsObj()
 
-            # Variables to be used in widgets
             savedHeight = StringVar()
             savedHeight.set(savedSettings.resolution.y)
 
@@ -448,25 +450,20 @@ def initGui():
             resNameLbl = Label(resFrame, text='Resolution')
             resNameLbl.pack(side=TOP)
 
-            # Width label
-            resXLbl = Label(resFrame, text='Width:')
-            resXLbl.pack()
-            resXLbl.place(anchor='ne', x=50, y=20)
+            # Resolution dropdown
+            print('Saved Setting: ', savedSettings.resolution.x)
+            if savedSettings.resolution.y == '1440':
+                savedResolution.set("1440p");
+            else:
+                savedResolution.set("1080p");
 
-            # Width spinbox
-            resXSpin = Spinbox(resFrame, from_=0, to=3840, width=5, textvariable=savedWidth)
-            resXSpin.pack()
-            resXSpin.place(anchor='nw', x=95, y=22)
+            resRadio1080p = Radiobutton(resFrame, text="1080p", variable=savedResolution, value="1080p");
+            resRadio1080p.pack();
+            resRadio1080p.place(anchor='center', x=75, y=30);
 
-            # Height label
-            resYLbl = Label(resFrame, text='Height:')
-            resYLbl.pack()
-            resYLbl.place(anchor='ne', x=50, y=40)
-
-            # Height spinbox
-            resYSpin = Spinbox(resFrame, from_=0, to=2160, width=5, textvariable=savedHeight)
-            resYSpin.pack()
-            resYSpin.place(anchor='nw', x=95, y=42)
+            resRadio1440p = Radiobutton(resFrame, text="1440p", variable=savedResolution, value="1440p");
+            resRadio1440p.pack();
+            resRadio1440p.place(anchor='center', x=75, y=50);
 
             # Stay on top
             stayTopFrame = Frame(settingsFrame, relief='ridge')
@@ -484,16 +481,26 @@ def initGui():
             stayTopCheck.place(anchor='ne', x=145, y=5)
 
             def handleOKSettingsModal(settingsFrame):
+
+                # Get resolution settings
+                if savedResolution.get() == '1440p':
+                    widthSetting = '2560'
+                    heightSetting = '1440'
+                else:
+                    widthSetting = '1920'
+                    heightSetting = '1080'
+
+
                 stringToWrite = '['
 
                 # Serialize resolution settings
                 stringToWrite += 'resolution:{'
                 # Width
-                stringToWrite += 'x:' + savedWidth.get()
+                stringToWrite += 'x:' + widthSetting
                 # New Item
                 stringToWrite += ','
                 # Height
-                stringToWrite += 'y:' + savedHeight.get() + '}'
+                stringToWrite += 'y:' + heightSetting + '}'
 
                 # Close String
                 stringToWrite += ']'
