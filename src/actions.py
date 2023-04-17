@@ -110,14 +110,14 @@ class Actions:
         keyboard.tap(Key.esc)
         time.sleep(self.sleepInterval)
         # Move mouse to options
-        mouse.position = (self.xRatioToPixel(.1005), self.yRatioToPixel(.51018))
+        mouse.position = (self.xRatioToPixel(self.optionsXRatio), self.yRatioToPixel(self.optionsYRatio))
         time.sleep(self.sleepInterval)
         # Left click
         mouse.press(Button.left)
         mouse.release(Button.left)
         time.sleep(self.sleepInterval)
         # Move mouse to audio tab
-        mouse.position = (self.xRatioToPixel(.4375), self.yRatioToPixel(.13981))
+        mouse.position = (self.xRatioToPixel(self.audioXRatio), self.yRatioToPixel(self.audioYRatio))
         time.sleep(self.sleepInterval)
         # Left click
         mouse.press(Button.left)
@@ -198,7 +198,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership mute position
-        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(.38703))
+        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(self.leadershipYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -228,7 +228,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership low position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.38703))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(self.leadershipYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -258,7 +258,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to leadership high
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(.38703))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(self.leadershipYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -318,7 +318,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to mute position
-        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(.35925))
+        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(self.unitYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -348,7 +348,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to low position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.35925))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(self.unitYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -378,7 +378,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to high position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(.35925))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(self.unitYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -431,7 +431,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse
-        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(.33240))
+        mouse.position = (self.xRatioToPixel(self.ratioScaleStart), self.yRatioToPixel(self.proximityYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -461,7 +461,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse to proximity low position
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(.33240))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(lowValue)), self.yRatioToPixel(self.proximityYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -491,7 +491,7 @@ class Actions:
         self.goToAudio()
 
         # Move mouse
-        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(.33240))
+        mouse.position = (self.xRatioToPixel(self.percentToRatio(highValue)), self.yRatioToPixel(self.proximityYRatio))
         time.sleep(self.sleepInterval)
         # Left Click
         mouse.press(Button.left)
@@ -538,9 +538,16 @@ class Actions:
         self.test = 'test'
         self.sleepInterval = .12
         self.commandRunning = False
-        self.ratioScaleLength = .13281
-        self.ratioScaleStart = .40989
-        self.ratioScaleEnd = .54270
+        self.ratioScaleLength = 0.14010
+        self.ratioScaleStart = 0.40468
+        self.ratioScaleEnd = 0.54479
+        self.leadershipYRatio = 0.41111
+        self.unitYRatio = 0.38055
+        self.proximityYRatio = 0.35185
+        self.optionsXRatio = 0.07604
+        self.optionsYRatio = 0.54166
+        self.audioXRatio = 0.42343
+        self.audioYRatio = 0.13981
         self.resolution = types.SimpleNamespace()
         self.resolution.x = 1920
         self.resolution.y = 1080

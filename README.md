@@ -48,7 +48,7 @@ Currently only 1080p is supported with accurate mouse click events.
 
 # Install Instructions
 
-1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/uj9ymprnrsqthal/Hll_Companion.zip/file)  
+1. Right click and select "Open in New Tab" to open the download link: [Hll Companion](https://www.mediafire.com/file/9g42x7glbene9e0/Hll_Companion_v1.2.zip/file)  
 2. Click the download button.  
 3. If your download is blocked:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- In the downloads bar on the bottom of the browser window, click the ^ button and then choose "Keep".  
